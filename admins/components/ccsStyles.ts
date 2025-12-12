@@ -1,0 +1,1 @@
+export const main_title="text-xl sm:text-2xl lg:text-3xl dark:text-gray-50 font-bold mb-5 text-blue-800 border-b"
