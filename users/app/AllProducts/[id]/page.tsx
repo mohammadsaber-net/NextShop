@@ -12,7 +12,7 @@ export default function page({params}:{params:any}) {
     const [images,setImages]=useState<any>([])
     const [loading,setLoading]=useState(false)
     const getProduct=async()=>{
-        setLoading(true)
+        setLoading(true) 
         const {id}=await params
         const {data}=await api.get("/api/products/"+id)
         setImages(data.product.images[0])
