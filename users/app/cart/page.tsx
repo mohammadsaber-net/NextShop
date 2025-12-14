@@ -1,5 +1,6 @@
 "use client"
 import Loading from "@/components/animations/loading"
+import Loading2 from "@/components/animations/Loading2"
 import UserInfo from "@/components/cart/UserInfo"
 import { api } from "@/lib/axios"
 import { addOne, removeOne } from "@/redux/slices/cart"
@@ -34,7 +35,7 @@ export default function page() {
             Cart Items ({cartIds.length})
           </h2>
           
-         {cartIds.length>0&&<table>
+         {cartIds.length>0&&products.length&&<table>
             <thead>
               <tr>
               <th>image & title</th>
@@ -61,6 +62,7 @@ export default function page() {
               ))}
             </tbody>
           </table>}
+          {cartIds.length>0&&products.length===0&&!iframeUrl&&<Loading2 />}
           {cartIds.length===0&&<h3 className="flex gap-2 mt-4 text-indigo-600">Empty Cart <BabyIcon /></h3>}
           
         </div>

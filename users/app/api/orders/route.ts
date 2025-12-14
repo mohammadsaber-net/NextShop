@@ -6,8 +6,9 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request){
     try {
       await mongooseConnection()
-      let {name,email,password,address,phone,first,product}=await req.json()
-      const existUser=await User.findOne({email:email})
+      let {name,email,payMethod,password,address,phone,first,product}=await req.json()
+      console.log(product)
+      let existUser=await User.findOne({email:email})
       if(first&& !existUser){
         return NextResponse.json({success:false,message:"user not found"})
       }
@@ -33,12 +34,13 @@ export async function POST(req: Request){
         order.push(data)
       }
       if(!existUser){
-        await User.create({
+        existUser=await User.create({
           name,email,phone,address,image:"images/defaultProfile.png"
           ,password:password||"gold123",role:"CUSTOMER"
         })
       }
-      const confirm=await Order.create({name,email,address,phone,product,order,payment:false})
+      await Order.create({payMethod:payMethod||"card",user:existUser._id,order,payment:false})
+      const confirm={email,name,order,phone,address}
       return NextResponse.json({success:true,confirm})  
     } catch (error) {
       console.log("errorrrrrrrrrrrrrrr",error)

@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const { amount, email,name, phone,address } = await request.json();
-    console.log({ amount, email,name, phone,address })
     const authRes = await axios.post(
       "https://accept.paymob.com/api/auth/tokens",
       { api_key: process.env.PAYMOB_API_KEY }

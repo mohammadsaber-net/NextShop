@@ -48,7 +48,7 @@ const renderItem = (item: any) => (
   return (
     <div className={MainDiv}>
       <div>
-        <h1 className={H1Style}>
+        <h1 className={H1Style+ " max-w-400"}>
             Upgrade Your Tech. Upgrade Your Life.
         </h1>
         <p className='max-w-96 text-gray-900 mb-6'>

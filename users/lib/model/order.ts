@@ -1,24 +1,18 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, Types } from "mongoose";
 
 const schema=new Schema({
-    name:{
-        type:String,
-        required:true
-    },
-    email:{
-        type:String,
-        required:true
-    },
-    phone:{
-        type:String,
-        required:true
-    },
-    address:{
-        type:String,
-        required:true
+    user: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: true
     },
     order:[Object],
-    payment:Boolean
+    payment:Boolean,
+    payMethod:{
+        type:String,
+        enum:["card","cash"],
+        default:"card"
+    }
 },{
     timestamps:true
 })

@@ -5,17 +5,20 @@ import { removeAll } from "@/redux/slices/cart";
 import { RootState } from "@/redux/store";
 import { UserInfoSchema } from "@/validations/UserInfo"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import Loading2 from "../animations/Loading2";
-
-export default function UserInfo({setIframeUrl,setName}:{setName:any,setIframeUrl:any}) {
+type Props={
+  setIframeUrl:any,
+  setName:any
+}
+export default function UserInfo({setIframeUrl,setName}:Props) {
+  const [loading,setLoading]=useState(false)
   const [firstOrder,setFristOrder]=useState(false)
   const cartIds=useSelector((state:RootState)=>state?.cart)
-  
-      const {
+    const {
     register,
     handleSubmit,
     formState:{errors ,isValid},
@@ -24,7 +27,6 @@ export default function UserInfo({setIframeUrl,setName}:{setName:any,setIframeUr
     resolver:zodResolver(UserInfoSchema),
     mode:"all"
   })
-  const [loading,setLoading]=useState(false)
   async function handlePay(
     amount: any,email: any,name: any,phone: 
     any,address: any) {

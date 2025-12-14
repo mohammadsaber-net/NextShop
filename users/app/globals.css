@@ -113,7 +113,7 @@ select{
       position: absolute;
       inset: 0px;
       border-radius: 50%;
-      border: 5px solid #FFF;
+      border: 5px solid #c4c1c1;
       animation: prixClipFix 2s linear infinite ;
     }
 

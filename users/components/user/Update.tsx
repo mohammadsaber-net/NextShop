@@ -11,25 +11,27 @@ import Loading2 from "../animations/Loading2"
 
 type Props={
     setUpdate:any,
+    setUser:any,
     btn:string,
-    user:{
-        name:string,
-        _id:any,
-        email:string,
+    addUser:boolean,
+    user?:{
+        name?:string,
+        _id?:any,
+        email?:string,
         password?:string,
-        phone:string,
-        address:string,
-        image:any
+        phone?:string,
+        address?:string,
+        image?:any
     },
     update:boolean
 }
-export default function Update({setUpdate,update,user,btn}:Props) {
+export default function Update({setUpdate,update,setUser,addUser,user,btn}:Props) {
     const [preview, setPreview] = useState(
-    typeof user.image === "string" ? user.image : ""
+    typeof user?.image === "string" ? user.image : ""
     );
-    const [pass,setPass]=useState<boolean>(false)
     const [loading,setLoading]=useState<boolean>(false)
     const [mounted, setMounted] = useState(false);
+    const [pass,setPass]=useState<boolean>(false)
     const Icon=pass?Eye:EyeClosedIcon
     useEffect(() => {
         setTimeout(() => setMounted(true), 1);
@@ -42,11 +44,11 @@ export default function Update({setUpdate,update,user,btn}:Props) {
         resolver:zodResolver(UserInfoSchema),
         mode:"all",
         defaultValues:{
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-        image: user.image,
+        name: user?.name,
+        email: user?.email,
+        phone: user?.phone,
+        address: user?.address,
+        image: user?.image,
         password:""
         }
     })
@@ -60,17 +62,29 @@ export default function Update({setUpdate,update,user,btn}:Props) {
         updated.append("password",e.password)
         updated.append("address",e.address)
         updated.append("image",e.image)
-        const {data}=await api.patch("/api/users/"+user._id,updated)
-        if(data.success){
-            toast.success("Data Updated Successfully")
-            setUpdate(false)
+        if(addUser){
+            const {data}=await api.post("/api/users/create",updated)
+            if(data.success){
+                toast.success("Account Created Successfully")
+                setUser(data.user)
+                setUpdate(false)
+            }else{
+                toast.error(data.message)
+            }
         }else{
-            toast.error(data.message)
-        }} catch (error) {
-            console.log(error)
-            toast.error((error as Error).message)
-        }
-        setLoading(false)
+            const {data}=await api.patch("/api/users/"+user?._id,updated)
+            if(data.success){
+                toast.success("Data Updated Successfully")
+                setUser(data.user)
+                setUpdate(false)
+            }else{
+                toast.error(data.message)
+            }
+            }} catch (error) {
+                console.log(error)
+                toast.error((error as Error).message)
+            }
+            setLoading(false)
     }
   return (
     <div onClick={()=>setUpdate(false)} className='fixed z-50 flex items-center justify-center inset-0 bg-gray-300/50'>
@@ -91,7 +105,7 @@ export default function Update({setUpdate,update,user,btn}:Props) {
             <input {...register("phone")} type="text" placeholder='phone number' />
             <input {...register("address")} type="text" placeholder='address' />
             <div className="flex gap-2 items-center">
-                <img src={preview} className="w-14 h-14" alt="" />
+                {preview&&<img src={preview} className="w-14 h-14" alt="" />}
                 <label className="block w-fit rounded p-4 text-white cursor-pointer bg-indigo-500" htmlFor="image">
                 image
             <input 
@@ -109,7 +123,7 @@ export default function Update({setUpdate,update,user,btn}:Props) {
             <button 
             type="submit"
             className={btn+" bg-blue-700 mt-4"}
-            >{loading?<Loading2/>:"Update"}</button>
+            >{loading?<Loading2/>:addUser?"Create Account":"Update"}</button>
         </form>
       </div>
     </div>

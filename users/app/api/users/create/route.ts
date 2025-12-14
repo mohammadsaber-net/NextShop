@@ -4,14 +4,9 @@ import { User } from "@/lib/model/user";
 import { mongooseConnection } from "@/lib/mongoose";
 import { NextResponse } from "next/server";
 
-export async function PATCH(req:Request,{params}:{params:any}){
+export async function POST(req:Request){
     try {
         await mongooseConnection()
-        const {id}=await params
-        const oldUser = await User.findById(id);
-        if (!oldUser) {
-            return NextResponse.json({ success: false, message: "User not found" });
-        }
         const formData = await req.formData()
         const name = formData.get("name") as string
         const email = formData.get("email") as string
@@ -19,7 +14,11 @@ export async function PATCH(req:Request,{params}:{params:any}){
         const password = formData.get("password") as string
         const address = formData.get("address") as string
         const image = formData.get("image") as File | null
-        let uploadedImages: string = oldUser.image;
+        const oldUser=await User.findOne({email})
+        if(oldUser){
+            return NextResponse.json({success:false,message:"This Email Is Already Used"})
+        }
+        let uploadedImages: string = '';
             if (image && image.size > 0) {
                 const arrayBuffer = await image.arrayBuffer();
                 const buffer = Buffer.from(arrayBuffer);
@@ -28,17 +27,10 @@ export async function PATCH(req:Request,{params}:{params:any}){
                 );
                 uploadedImages = upload.secure_url;
             }
-        let hashedPassword = oldUser.password;
-        if (password && password.trim() !== "") {
-            hashedPassword = await bcrypt.hash(password, 10);
-        }
-        const user=await User.findByIdAndUpdate(id,
-            {name,email,address,password: hashedPassword,phone,role:"CUSTOMER",image:uploadedImages}
-            ,{ new: true, runValidators: true }
-        )
+        let hashedPassword = await bcrypt.hash(password, 10);
+        const user=await User.create({name,email,address,password: hashedPassword,phone,role:"CUSTOMER",image:uploadedImages})
         return NextResponse.json({success:true,user})
     } catch (error) {
-        console.log(error)
         return NextResponse.json({success:false,message:(error as Error).message})
     }
 }

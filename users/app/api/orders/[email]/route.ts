@@ -5,7 +5,7 @@ export async function GET(req:Request,{params}:{params:any}) {
     try {
         await mongooseConnection()
         const {email}=await params
-        const order=await Order.find({email:{$in:email}})
+        const order=await Order.find({email:email}).populate("user",("name email phone address"))
         if(!order){
             return NextResponse.json({success:false,message:"orders Not found"})
         }

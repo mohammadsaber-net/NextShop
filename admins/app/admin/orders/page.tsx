@@ -4,12 +4,14 @@ import { mongooseConnection } from "@/lib/mongoose"
 
 export default async function Orders() {
   await mongooseConnection()
-  const orders=JSON.parse (JSON.stringify(await Order.find()))
+  const orders=JSON.parse (JSON.stringify(await Order.find().populate("user",("name email phone address"))))
   return (
     <div>
       <h2 className={main_title}>
         Orders
       </h2>
+      <div className="h-[500px] overflow-auto md:h-fit md:max-w-2xl max-w-[600px]">
+
       <table>
         <thead>
           <tr>
@@ -64,6 +66,7 @@ export default async function Orders() {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   )
 }
