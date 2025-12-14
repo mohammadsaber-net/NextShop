@@ -1,9 +1,10 @@
 import DeleteProduct from '@/components/products/DeleteProduct';
-import axios from 'axios'
+import { User } from '@/lib/model/user';
+import { mongooseConnection } from '@/lib/mongoose';
 import Link from 'next/link'
 export default async function page() {
-  const res = await fetch("/api/users", { cache: 'no-store' });
-  const data = await res.json();
+  await mongooseConnection();
+  const data=JSON.parse(JSON.stringify(await User.find()))
   return (
     <div>
       <Link href={"/admin/users/newUser"} className='text-blue-600 bg-white px-2 py-1 border-blue-600 border rounded-md
@@ -20,7 +21,7 @@ export default async function page() {
           </tr>
         </thead>
         <tbody>
-          {data?.data.map((user:any)=>(
+          {data.map((user:any)=>(
             <tr key={user._id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
