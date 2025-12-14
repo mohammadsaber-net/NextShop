@@ -2,7 +2,8 @@ import DeleteProduct from '@/components/products/DeleteProduct';
 import axios from 'axios'
 import Link from 'next/link'
 export default async function page() {
-  const {data}=await axios.get(process.env.NEXTAUTH_URL+"/api/users")
+  const res = await fetch("/api/users", { cache: 'no-store' });
+  const data = await res.json();
   return (
     <div>
       <Link href={"/admin/users/newUser"} className='text-blue-600 bg-white px-2 py-1 border-blue-600 border rounded-md
