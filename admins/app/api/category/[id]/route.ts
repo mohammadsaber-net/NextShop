@@ -2,7 +2,7 @@ import { Category } from "@/lib/model/category";
 import { mongooseConnection } from "@/lib/mongoose";
 import { NextResponse } from "next/server";
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: any  }) {
   try {
     await mongooseConnection();
     const {id}=await params
