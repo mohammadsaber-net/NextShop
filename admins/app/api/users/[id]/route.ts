@@ -3,7 +3,7 @@ import { mongooseConnection } from "@/lib/mongoose";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: any }) {
   try {
     await mongooseConnection();
     const session=await getServerSession(authOptions) as any
