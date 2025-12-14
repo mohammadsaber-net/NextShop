@@ -13,7 +13,7 @@ export async function DELETE(req: Request, { params }: { params: any  }) {
   }
 
 }
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: any  }) {
   try {
     await mongooseConnection();
     const {name,properties,parentCategories}=await req.json()
