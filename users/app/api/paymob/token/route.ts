@@ -1,9 +1,10 @@
+import { Order } from "@/lib/model/order";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { amount, email,name, phone,address } = await request.json();
+    const { amount,orderId, email,name, phone,address } = await request.json();
     const authRes = await axios.post(
       "https://accept.paymob.com/api/auth/tokens",
       { api_key: process.env.PAYMOB_API_KEY }
@@ -20,7 +21,17 @@ export async function POST(request: Request) {
       }
     );
 
-    const orderId = orderRes.data.id;
+    const paymobOrderId = orderRes.data.id;
+    const localOrder = await Order.findById(orderId);
+    if (!localOrder) {
+      return NextResponse.json(
+        { error: "Order not found" },
+        { status: 404 }
+      );
+    }
+    await Order.findByIdAndUpdate(orderId, {
+        paymobId:paymobOrderId
+      });
     const numericAmount = Number(amount);
         if (isNaN(numericAmount) || numericAmount <= 0) {
         return NextResponse.json(
@@ -28,15 +39,13 @@ export async function POST(request: Request) {
             { status: 400 }
         );
         }
-
-        console.log("numericAmount",numericAmount)
     const paymentKeyRes = await axios.post(
       "https://accept.paymob.com/api/acceptance/payment_keys",
       {
         auth_token: authToken,
         amount_cents: numericAmount * 100,
         expiration: 3600,
-        order_id: orderId,
+        order_id: paymobOrderId,
         currency: "EGP", 
         billing_data: {
             apartment: "NA",
@@ -54,6 +63,7 @@ export async function POST(request: Request) {
             state: "NA"
         },
         integration_id: process.env.PAYMOB_INTEGRATION_ID,
+        redirect_url: "https://next-shop-ns5b.vercel.app/paymob"
       }
     );
 

@@ -39,8 +39,8 @@ export async function POST(req: Request){
           ,password:password||"gold123",role:"CUSTOMER"
         })
       }
-      await Order.create({payMethod:payMethod||"card",user:existUser._id,order,payment:false})
-      const confirm={email,name,order,phone,address}
+      const OrderId=await Order.create({payMethod:payMethod||"card",user:existUser._id,paymobId:123,order,payment:false})
+      const confirm={email,OrderId:OrderId._id,name,order,phone,address}
       return NextResponse.json({success:true,confirm})  
     } catch (error) {
       console.log("errorrrrrrrrrrrrrrr",error)

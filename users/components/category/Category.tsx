@@ -22,7 +22,7 @@ export default function Categories({ category }: { category: any }) {
   return (
     <div className="w-[90%] min-h-screen mx-auto sm:w-[85%] lg:max-w-[75%] max-w-4xl py-8">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Categories</h2>
-      {products.length===0&&<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {products.length===0&&<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {category.map((item: any) =>{
         return item.parent&&( 
               <div

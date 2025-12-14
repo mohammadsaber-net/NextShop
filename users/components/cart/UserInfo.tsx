@@ -29,14 +29,15 @@ export default function UserInfo({setIframeUrl,setName}:Props) {
   })
   async function handlePay(
     amount: any,email: any,name: any,phone: 
-    any,address: any) {
+    any,address: any,orderId:any) {
     const {data} = await api.post("/api/paymob/token",
       {
         amount,
         email,
         name,
         phone,
-        address 
+        address,
+        orderId 
       },);
       setIframeUrl(data.iframe_url);
       setName(name)
@@ -65,7 +66,8 @@ export default function UserInfo({setIframeUrl,setName}:Props) {
         data.confirm.email,
         data.confirm.name,
         data.confirm.phone,
-        data.confirm.address
+        data.confirm.address,
+        data.confirm.orderId
         )
       }
       return handlePay(
@@ -73,7 +75,8 @@ export default function UserInfo({setIframeUrl,setName}:Props) {
         data.confirm.email,
         data.confirm.name,
         data.confirm.phone,
-        data.confirm.address
+        data.confirm.address,
+        data.confirm.orderId
       )
     }else{
       toast.error(data.message||"Order Confirmation Failed")

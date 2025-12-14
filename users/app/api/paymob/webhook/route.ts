@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import { Order } from "@/lib/model/order";
 export async function POST(request: Request) {
   try {
     const data = await request.json();
@@ -38,8 +39,13 @@ export async function POST(request: Request) {
     }
     if (order.success === true) {
       console.log("Payment succeeded:", order.id);
+      await Order.findOneAndUpdate(
+        { paymobId: order.id },
+        { payment: true }
+      );
     } else {
       console.log("Payment failed:", order.id);
+      
     }
     return NextResponse.json({ status: "received" });
   } catch (error) {

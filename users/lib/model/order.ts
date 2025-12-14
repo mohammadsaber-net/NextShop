@@ -8,6 +8,10 @@ const schema=new Schema({
     },
     order:[Object],
     payment:Boolean,
+    paymobId: {
+        type: Number,
+        index: true
+    },
     payMethod:{
         type:String,
         enum:["card","cash"],

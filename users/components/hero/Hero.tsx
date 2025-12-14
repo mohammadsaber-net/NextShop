@@ -1,15 +1,13 @@
 "use client"
-import {ShoppingCart} from "lucide-react"
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-export const H1Style="text-xl mt-4 text-white sm:text-2xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2"
+export const H1Style=""
 export const seeMore=`hover:bg-indigo-600 transition bg-white 
           text-indigo-600 border border-indigo-600 px-4 py-2 
           rounded-md hover:text-white cursor-pointer`
 export const addToCart=`px-4 py-2 border border-blue-600 rounded-md text-blue-600 bg-white
           cursor-pointer flex items-center gap-2 hover:bg-blue-600 hover:text-white`
-export const MainDiv=`h-fit justify-around items-center flex
- bg-gradient-to-r from-purple-300 to-indigo-400 flex-col md:flex-row`
+export const MainDiv=``
 export default function Hero() {
     const images = [
   {
@@ -22,9 +20,13 @@ export default function Hero() {
   },
   {
     original: "/images/istockphoto-1476003857-612x612.webp",
-    description:`Enjoy Your AirPods ${<br />} With Best Off`
+    description: (
+      <>
+        Enjoy Your AirPods <br /> With Best Offers
+      </>
+    ),
   },
-];
+] as any;
 const renderItem = (item: any) => (
     <div className={`${item.original==="/images/shopify-hero-man.webp"&&"bg-white"} 
     relative w-fit overflow-hidden h-fit`}>
@@ -46,9 +48,13 @@ const renderItem = (item: any) => (
     </div>
   );
   return (
-    <div className={MainDiv}>
+  <div className="bg-gradient-to-r from-purple-300 to-indigo-400">
+    <div className="w-[90%] mx-auto sm:w-[85%] lg:max-w-[75%] max-w-3xl
+    h-fit justify-around items-center flex
+  flex-col md:flex-row">
       <div>
-        <h1 className={H1Style+ " max-w-400"}>
+        <h1 className="text-xl mt-4 text-white sm:text-2xl md:text-3xl
+         lg:text-4xl font-bold text-gray-800 mb-2 w-[350px]">
             Upgrade Your Tech. Upgrade Your Life.
         </h1>
         <p className='max-w-96 text-gray-900 mb-6'>
@@ -77,6 +83,7 @@ const renderItem = (item: any) => (
          showThumbnails={false}
          />
 
+      </div>
       </div>
     </div>
   )
