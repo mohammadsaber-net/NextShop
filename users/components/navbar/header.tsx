@@ -4,6 +4,7 @@ import { MenuIcon, ShoppingCart, X } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import SearchProduct from '../product/searchProduct'
 const navStyle=`me-5 text-lg font-medium hover:scale-95 
 hover:text-gray-700 transition duration-200 transform
 `
@@ -18,6 +19,9 @@ export default function Header() {
   return (
     <header className={headerStyle}>
             <Link className={navStyle} href={"/"}>Shopify</Link>
+            <div className='items-center gap-2 flex'>
+
+            <SearchProduct />
             <nav className='hidden items-center gap-5 md:flex'>
             <Link className={navStyle} href={"/"}>Home</Link>
             <Link className={navStyle} href={"/AllProducts"}>All Products</Link>
@@ -61,6 +65,7 @@ export default function Header() {
             onClick={()=>setShowMobile(false)}
             className={navStyleMobile} href={"/account"}>Account</Link>
             </nav>
+            </div>
     </header>
   )
 }

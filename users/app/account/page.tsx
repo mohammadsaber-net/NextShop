@@ -36,11 +36,10 @@ export default function page() {
     }
     setLoading(false)
   }   
-  const getOrders=async()=>{
+  const getOrders=async(userId:any)=>{
     setLoading(true)
     try {
-      const {data}=await api.get("/api/orders/"+email)
-      console.log(data)
+      const {data}=await api.get("/api/orders/"+userId)
     if(data.success){
       setOrder(data.order)
       toast.success("Data Fetched Successfully")
@@ -128,7 +127,7 @@ export default function page() {
             Update Info
           </button>
         <button 
-        onClick={getOrders}
+        onClick={()=>getOrders(user._id)}
         className={btn+" bg-gray-700 "}>
           {loading?<Loading2 />:"Show Your Orders"}
         </button>

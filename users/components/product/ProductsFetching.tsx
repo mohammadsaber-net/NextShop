@@ -9,8 +9,6 @@ export default async function ProductsFetching({value}:{value:string}) {
     data = JSON.parse(JSON.stringify(
     await Product.find({}).sort({ _id: 1 }).limit(10)
   ));
-  const Or=await Order.find()
-  console.log("orrrrr",Or)
   }else{
     data = JSON.parse(JSON.stringify(
     await Product.find({}).sort({ _id: -1 })));

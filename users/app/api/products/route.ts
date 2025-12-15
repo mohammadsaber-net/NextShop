@@ -7,7 +7,11 @@ export async function GET(req: Request) {
   await mongooseConnection()
   const {searchParams}=new URL(req.url)
   const Ids=searchParams.getAll("Ids[]")    
-  const data=await Product.find({_id:{$in:Ids}})
+  if(Ids.length>0){
+    const data=await Product.find({_id:{$in:Ids}})
+    return NextResponse.json({ success: true,data });
+ }
+  const data=await Product.find()
   return NextResponse.json({ success: true,data });
  } catch (error) {
   console.log("errrrrrrrrrrrrrr",error)
