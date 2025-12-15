@@ -16,26 +16,26 @@ export async function POST(request: Request) {
     console.log("Received HMAC:", receivedHmac);
 
     const concatString =
-      String(order.amount_cents) +
-      String(order.created_at) +
-      String(order.currency) +
-      String(order.error_occured) +
-      String(order.has_parent_transaction) +
-      String(order.id) +
-      String(order.integration_id) +
-      String(order.is_3d_secure) +
-      String(order.is_auth) +
-      String(order.is_capture) +
-      String(order.is_refunded) +
-      String(order.is_standalone_payment) +
-      String(order.is_voided) +
-      String(order.order.id) +
-      String(order.owner) +
-      String(order.pending) +
-      String(order.source_data?.pan || "") +
-      String(order.source_data?.sub_type || "") +
-      String(order.source_data?.type || "") +
-      String(order.success);
+    String(order.amount_cents) +
+    String(order.created_at) +
+    String(order.currency) +
+    String(order.error_occured) +
+    String(order.has_parent_transaction) +
+    String(order.id) +
+    String(order.integration_id) +
+    String(order.is_3d_secure) +
+    String(order.is_auth) +
+    String(order.is_capture) +
+    String(order.is_refund) +          // ✅
+    String(order.is_standalone_payment) +
+    String(order.is_void) +             // ✅
+    String(order.order.id) +
+    String(order.owner) +
+    String(order.pending) +
+    String(order.source_data?.pan || "") +
+    String(order.source_data?.type || "") +      // ✅
+    String(order.source_data?.sub_type || "") +  // ✅
+    String(order.success);
 
     const calculatedHmac = createHmac("sha512", process.env.PAYMOB_HMAC!)
       .update(concatString)
