@@ -40,6 +40,7 @@ export default function page() {
     setLoading(true)
     try {
       const {data}=await api.get("/api/orders/"+email)
+      console.log(data)
     if(data.success){
       setOrder(data.order)
       toast.success("Data Fetched Successfully")
@@ -53,12 +54,12 @@ export default function page() {
   }
   async function handlePay(
     itemId:any,amount: any,email: any,name: any,phone: 
-    any,address: any) {
+    any,address: any,OrderId:any) {
       setLoading2(itemId)
       try {
         const {data} = await api.post("/api/paymob/token",
         {
-        amount,email,name,phone,address 
+        amount,email,name,phone,address,OrderId
       },);
         setIframeUrl(data.iframe_url);
         setPay(true)
@@ -189,7 +190,7 @@ export default function page() {
                 onClick={() => {const amount = item.order.reduce(
                 (acc: number, prod: any) => {return acc + prod.price * prod.amount;}, 0);
                 handlePay(item._id,
-                amount,user.email,user.name,user.phone,user.address);}}
+                amount,user.email,user.name,user.phone,user.address,item._id);}}
                 className="bg-indigo-700 text-white p-1 rounded cursor-pointer">
                   {loading2===item._id?<Loading2 />:"Complete Payment?"}
                 </button>}

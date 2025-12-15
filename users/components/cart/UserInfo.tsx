@@ -29,7 +29,7 @@ export default function UserInfo({setIframeUrl,setName}:Props) {
   })
   async function handlePay(
     amount: any,email: any,name: any,phone: 
-    any,address: any,orderId:any) {
+    any,address: any,OrderId:any) {
     const {data} = await api.post("/api/paymob/token",
       {
         amount,
@@ -37,7 +37,7 @@ export default function UserInfo({setIframeUrl,setName}:Props) {
         name,
         phone,
         address,
-        orderId 
+        OrderId 
       },);
       setIframeUrl(data.iframe_url);
       setName(name)
@@ -54,6 +54,7 @@ export default function UserInfo({setIframeUrl,setName}:Props) {
     const {data}=await api.post("/api/orders",order)
     let amount = 0 as number
     if(data.success){
+      console.log(data.confirm)
       toast.success("Order Confirmed, Please Wait...")
       data.confirm.order.forEach((item:any)=>{
         amount += +item.price * +item.amount
@@ -67,7 +68,7 @@ export default function UserInfo({setIframeUrl,setName}:Props) {
         data.confirm.name,
         data.confirm.phone,
         data.confirm.address,
-        data.confirm.orderId
+        data.confirm.OrderId
         )
       }
       return handlePay(

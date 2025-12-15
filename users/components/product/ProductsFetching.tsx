@@ -1,6 +1,7 @@
 import { mongooseConnection } from "@/lib/mongoose";
 import { Product } from "@/lib/model/products";
 import ProductBox from "./productBox";
+import { Order } from "@/lib/model/order";
 export default async function ProductsFetching({value}:{value:string}) {
   await mongooseConnection();
   let data:any;
@@ -8,6 +9,8 @@ export default async function ProductsFetching({value}:{value:string}) {
     data = JSON.parse(JSON.stringify(
     await Product.find({}).sort({ _id: 1 }).limit(10)
   ));
+  const Or=await Order.find()
+  console.log("orrrrr",Or)
   }else{
     data = JSON.parse(JSON.stringify(
     await Product.find({}).sort({ _id: -1 })));

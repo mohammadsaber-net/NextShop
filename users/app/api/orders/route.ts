@@ -40,6 +40,7 @@ export async function POST(req: Request){
         })
       }
       const OrderId=await Order.create({payMethod:payMethod||"card",user:existUser._id,paymobId:123,order,payment:false})
+      console.log(OrderId)
       const confirm={email,OrderId:OrderId._id,name,order,phone,address}
       return NextResponse.json({success:true,confirm})  
     } catch (error) {

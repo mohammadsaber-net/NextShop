@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { amount,orderId, email,name, phone,address } = await request.json();
+    const { amount,OrderId, email,name, phone,address } = await request.json();
+    console.log({ amount,OrderId, email,name, phone,address })
     const authRes = await axios.post(
       "https://accept.paymob.com/api/auth/tokens",
       { api_key: process.env.PAYMOB_API_KEY }
@@ -22,14 +23,14 @@ export async function POST(request: Request) {
     );
 
     const paymobOrderId = orderRes.data.id;
-    const localOrder = await Order.findById(orderId);
+    const localOrder = await Order.findById(OrderId);
     if (!localOrder) {
       return NextResponse.json(
         { error: "Order not found" },
         { status: 404 }
       );
     }
-    await Order.findByIdAndUpdate(orderId, {
+    await Order.findByIdAndUpdate(OrderId, {
         paymobId:paymobOrderId
       });
     const numericAmount = Number(amount);
@@ -63,7 +64,7 @@ export async function POST(request: Request) {
             state: "NA"
         },
         integration_id: process.env.PAYMOB_INTEGRATION_ID,
-        redirect_url: "https://next-shop-ns5b.vercel.app/paymob"
+        redirect_url: `${process.env.NEXTAUTH_URL}/paymob`
       }
     );
 
