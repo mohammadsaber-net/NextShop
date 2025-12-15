@@ -1,18 +1,19 @@
-import { NextResponse } from "next/server";
-import crypto from "crypto";
 import { Order } from "@/lib/model/order";
 import { mongooseConnection } from "@/lib/mongoose";
+import { NextResponse } from "next/server";
+import { createHmac } from "crypto";
 
 export async function POST(request: Request) {
   try {
     await mongooseConnection();
+
+    const { searchParams } = new URL(request.url);
+    const receivedHmac = searchParams.get("hmac"); // ✅ الصح
+
     const data = await request.json();
-    const receivedHmac = request.headers.get("X-CHECKSUM-SHA512"); // من هنا
+    const order = data.obj;
 
     console.log("Received HMAC:", receivedHmac);
-    console.log("Payload:", JSON.stringify(data, null, 2));
-
-    const order = data.obj;
 
     const concatString =
       String(order.amount_cents) +
@@ -36,46 +37,35 @@ export async function POST(request: Request) {
       String(order.source_data?.type || "") +
       String(order.success);
 
-    const calculatedHmac = crypto
-      .createHmac("sha512", process.env.PAYMOB_HMAC!)
+    const calculatedHmac = createHmac("sha512", process.env.PAYMOB_HMAC!)
       .update(concatString)
       .digest("hex");
 
-    if (receivedHmac !== calculatedHmac) {
-      console.log("❌ Invalid HMAC");
-      return NextResponse.json(
-        { message: "Invalid HMAC — unauthorized" },
-        { status: 401 }
-      );
-    }
-if (receivedHmac !== calculatedHmac) {
-    console.log("✅ HMAC valid");
-      console.log("Received HMAC:", receivedHmac);
+      
+      if (receivedHmac !== calculatedHmac) {
       console.log("Calculated HMAC:", calculatedHmac);
-      console.log("Concat string:", concatString);
-      return NextResponse.json(
-        { message: "Invalid HMAC — unauthorized" },
-        { status: 401 }
-      );
+      console.log("❌ Invalid HMAC");
+      console.log("calculatedHmac",calculatedHmac)
+      return NextResponse.json({ message: "Invalid HMAC" }, { status: 401 });
     }
+
+    console.log("✅ HMAC VALID");
+
     if (order.success === true) {
-      console.log("✅ Payment succeeded:", order.id);
       const paymobOrderId = Number(order.order.id);
-      const myOrder=await Order.findOne({paymobId: paymobOrderId})
-      console.log(myOrder)
-      await Order.findOneAndUpdate(
-        { paymobId: paymobOrderId},
-        {
-          payment: true,
-        }
+
+      const updatedOrder = await Order.findOneAndUpdate(
+        { paymobId: paymobOrderId },
+        { payment: true },
+        { new: true }
       );
-    } else {
-      console.log("❌ Payment failed or pending:", order.id);
+
+      console.log("✅ Order updated:", updatedOrder);
     }
 
     return NextResponse.json({ status: "received" });
-  } catch (error) {
-    console.log("Webhook Error:", error);
+  } catch (err) {
+    console.log("Webhook error:", err);
     return NextResponse.json({ error: "Webhook error" }, { status: 500 });
   }
 }
