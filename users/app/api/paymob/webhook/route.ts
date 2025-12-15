@@ -69,7 +69,7 @@ export async function POST(request: Request) {
             String(order.success);
 
 
-        const calculatedHmac = createHmac("sha512", process.env.PAYMOB_HMAC_SECRET!) // تأكد من استخدام المتغير الصحيح
+        const calculatedHmac = createHmac("sha512", process.env.PAYMOB_HMAC!) // تأكد من استخدام المتغير الصحيح
             .update(concatString)
             .digest("hex");
 
