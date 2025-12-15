@@ -5,12 +5,15 @@ import { mongooseConnection } from "@/lib/mongoose";
 
 export async function POST(request: Request) {
   try {
-    await mongooseConnection()
+    await mongooseConnection();
     const data = await request.json();
-    const receivedHmac = data.hmac;
+    const receivedHmac = request.headers.get("X-CHECKSUM-SHA512"); // من هنا
+
+    console.log("Received HMAC:", receivedHmac);
+    console.log("Payload:", JSON.stringify(data, null, 2));
+
     const order = data.obj;
 
-    // ✅ HMAC concat (بالترتيب الرسمي + safe casting)
     const concatString =
       String(order.amount_cents) +
       String(order.created_at) +
@@ -38,13 +41,18 @@ export async function POST(request: Request) {
       .update(concatString)
       .digest("hex");
 
-    // ❌ HMAC مش مطابق
     if (receivedHmac !== calculatedHmac) {
+      console.log("❌ Invalid HMAC");
+      return NextResponse.json(
+        { message: "Invalid HMAC — unauthorized" },
+        { status: 401 }
+      );
+    }
+if (receivedHmac !== calculatedHmac) {
+    console.log("✅ HMAC valid");
       console.log("Received HMAC:", receivedHmac);
       console.log("Calculated HMAC:", calculatedHmac);
       console.log("Concat string:", concatString);
-
-      console.log("❌ Invalid HMAC");
       return NextResponse.json(
         { message: "Invalid HMAC — unauthorized" },
         { status: 401 }
