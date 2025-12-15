@@ -40,6 +40,10 @@ export async function POST(request: Request) {
 
     // ❌ HMAC مش مطابق
     if (receivedHmac !== calculatedHmac) {
+      console.log("Received HMAC:", receivedHmac);
+      console.log("Calculated HMAC:", calculatedHmac);
+      console.log("Concat string:", concatString);
+
       console.log("❌ Invalid HMAC");
       return NextResponse.json(
         { message: "Invalid HMAC — unauthorized" },
