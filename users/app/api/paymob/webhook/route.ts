@@ -13,11 +13,6 @@ export async function POST(req: Request) {
 
     const receivedHmac = data.hmac;
     const transaction = data.obj;
-
-    if (!receivedHmac || !transaction) {
-      return NextResponse.json({ message: "Invalid payload" }, { status: 400 });
-    }
-
     // 🔐 HMAC
     const concatString =
       transaction.amount_cents +
