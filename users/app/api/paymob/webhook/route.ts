@@ -6,6 +6,8 @@ export async function POST(req: NextRequest) {
   try {
     await mongooseConnection();
     const secret = req.nextUrl.searchParams.get("secret");
+    console.log("secret",secret)
+    console.log("process.env.WEBHOOK_SECRET",process.env.WEBHOOK_SECRET)
     if (secret !== process.env.WEBHOOK_SECRET) {
       console.error("❌ Forbidden: Invalid secret");
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
