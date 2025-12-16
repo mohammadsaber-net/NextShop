@@ -8,9 +8,6 @@ export async function POST(req: Request) {
     await mongooseConnection();
 
     const data = await req.json();
-
-    console.log("PAYMOB CALLBACK:", data); // مهم جدًا أول مرة
-
     const receivedHmac = data.hmac;
     const transaction = data.obj;
     // 🔐 HMAC
@@ -40,7 +37,8 @@ export async function POST(req: Request) {
       .createHmac("sha512", process.env.PAYMOB_HMAC!)
       .update(concatString)
       .digest("hex");
-
+      console.log("calculatedHmac",calculatedHmac)
+      console.log("receivedHmac",receivedHmac)
     if (calculatedHmac !== receivedHmac) {
       console.error("❌ HMAC NOT MATCH");
       return NextResponse.json({ message: "Invalid HMAC" }, { status: 401 });
