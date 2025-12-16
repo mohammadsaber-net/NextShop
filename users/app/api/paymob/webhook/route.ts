@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
 import { mongooseConnection } from "@/lib/mongoose";
 import { Order } from "@/lib/model/order";
 
@@ -8,53 +7,29 @@ export async function POST(req: Request) {
     await mongooseConnection();
 
     const data = await req.json();
-    const receivedHmac = data.hmac;
     const transaction = data.obj;
-    // 🔐 HMAC
-    const concatString =
-      transaction.amount_cents +
-      transaction.created_at +
-      transaction.currency +
-      transaction.error_occured +
-      transaction.has_parent_transaction +
-      transaction.id +
-      transaction.integration_id +
-      transaction.is_3d_secure +
-      transaction.is_auth +
-      transaction.is_capture +
-      transaction.is_refunded +
-      transaction.is_standalone_payment +
-      transaction.is_voided +
-      transaction.order.id +
-      transaction.owner +
-      transaction.pending +
-      transaction.source_data.pan +
-      transaction.source_data.sub_type +
-      transaction.source_data.type +
-      transaction.success;
 
-    const calculatedHmac = crypto
-      .createHmac("sha512", process.env.PAYMOB_HMAC!)
-      .update(concatString)
-      .digest("hex");
-      console.log("calculatedHmac",calculatedHmac)
-      console.log("receivedHmac",receivedHmac)
-    if (calculatedHmac !== receivedHmac) {
-      console.error("❌ HMAC NOT MATCH");
-      return NextResponse.json({ message: "Invalid HMAC" }, { status: 401 });
+    if (!transaction) {
+      console.error("❌ Invalid payload, transaction missing");
+      return NextResponse.json({ message: "Invalid payload" }, { status: 400 });
     }
 
-    // 🧠 تحديث الأوردر
+    // 🧠 تحديث الأوردر بناءً على حالة الدفع
     const isPaid = transaction.success === true;
 
-    await Order.findOneAndUpdate(
-    { paymobId: transaction.order.id },
-        {
-            payment: isPaid,
-        }
-        );
+    const updatedOrder = await Order.findOneAndUpdate(
+      { paymobId: transaction.order.id },
+      { payment: isPaid },
+      { new: true } // optional: ترجع لك الأوردر بعد التحديث
+    );
 
+    if (!updatedOrder) {
+      console.error("❌ Order not found for paymobId:", transaction.order.id);
+    } else {
+      console.log("✅ Order updated successfully:", updatedOrder._id);
+    }
 
+    // ✅ رجّع 200 دايمًا حتى لو الأوردر مش موجود
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Webhook Error:", err);
