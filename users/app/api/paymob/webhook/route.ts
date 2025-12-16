@@ -15,21 +15,16 @@ export async function POST(req: NextRequest) {
 
     const data = await req.json();
     const transaction = data.obj;
-
     if (!transaction) {
       console.error("❌ Invalid payload, transaction missing");
       return NextResponse.json({ message: "Invalid payload" }, { status: 400 });
     }
-
-    // 🧠 تحديث الأوردر مباشرة
     const isPaid = transaction.success === true;
-
-    const updatedOrder = await Order.findOneAndUpdate(
-      { paymobId: transaction.order._id},
-      { payment: isPaid},
+ const updatedOrder = await Order.findOneAndUpdate(
+       { paymobId: transaction.order.id },
+       { payment: isPaid },
       { new: true }
     );
-
     if (!updatedOrder) {
       console.warn("⚠ Order not found or already updated:", transaction.order.id);
     } else {
