@@ -7,7 +7,9 @@ const schema=new Schema({
       required: true
     },
     order:[Object],
-    payment:Boolean,
+    payment:{
+        type:Boolean
+    },
     paymobId: {
         type: Number,
         index: true

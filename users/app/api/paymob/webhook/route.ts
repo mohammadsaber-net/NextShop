@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
     );
     if (!updatedOrder) {
       console.warn("⚠ Order not found or already updated:", transaction.order.id);
+      console.log('they are equals===>',updatedOrder.paymobId===Number(transaction.order.id))
     } else {
       console.log("✅ Order updated successfully:", updatedOrder._id);
     }
