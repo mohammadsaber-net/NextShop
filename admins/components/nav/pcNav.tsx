@@ -28,10 +28,6 @@ export default function PcNav({setMobile}:{setMobile:React.Dispatch<React.SetSta
         className={`flex p-2 rounded-s-md transition hover:bg-white hover:dark:bg-gray-500 items-center gap-2 ${pathname==="/admin/users"&&active}`}>
         <User /> users 
         </Link>
-        <Link onClick={()=>setMobile(false)} href={"/admin/settings"} 
-        className={`flex p-2 transition hover:bg-white hover:dark:bg-gray-500 rounded-s-md items-center gap-2 ${pathname==="/admin/settings"&&active}`}>
-        <Settings /> Settings
-        </Link>
         <div onClick={()=>signOut()} className='flex p-2 cursor-pointer transition hover:bg-white hover:dark:bg-gray-500 rounded-s-md items-center gap-2 '>
          <LogOut />
           Logout

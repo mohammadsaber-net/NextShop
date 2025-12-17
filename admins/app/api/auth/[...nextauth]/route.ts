@@ -55,7 +55,10 @@ export const authOptions: AuthOptions ={
     }),
   ],
   adapter: MongoDBAdapter(client),
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt",maxAge:60 * 60 },
+  jwt:{
+    maxAge:60 * 60
+  },
   callbacks: {
     async jwt({ token, user }) {
     if (user) {
