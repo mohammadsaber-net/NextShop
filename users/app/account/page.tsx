@@ -69,7 +69,7 @@ export default function page() {
       setLoading2(null)
     }
   return (
-    <div className="w-[90%] mx-auto sm:w-[85%] lg:max-w-[75%] max-w-3xl min-h-screen">
+    <div className="w-[90%] mx-auto sm:w-[85%] lg:max-w-[75%] max-w-3xl">
       {pay&&<Paymob 
       iframeUrl={iframeUrl}
       setPay={setPay}/>}
