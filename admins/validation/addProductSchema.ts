@@ -4,7 +4,8 @@ export const schema = z.object({
   title: z.string().nonempty("title required"),
   description: z.string().nonempty("description required"),
   price: z.string().nonempty("price required"),
-  category: z.string().nonempty("price required"),
+  quantity: z.string().nonempty("quantity required"),
+  category: z.string().nonempty("category required"),
   parent: z.string().optional(),
   properties: z.array(
     z.object({

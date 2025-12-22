@@ -27,6 +27,7 @@ export async function POST(req: Request){
       let order=[]
       for (let index = 0; index < productInfo.length; index++) {
         const data={
+            _id:productInfo[index]._id,
             title:productInfo[index].title,
             price:productInfo[index].price,
             amount:product.filter((id:any)=>id===productInfo[index]._id.toString()).length

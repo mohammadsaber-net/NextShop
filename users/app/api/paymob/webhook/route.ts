@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { mongooseConnection } from "@/lib/mongoose";
 import { Order } from "@/lib/model/order";
+import { Product } from "@/lib/model/products";
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,6 +26,19 @@ export async function POST(req: NextRequest) {
        { payment: isPaid },
       { new: true }
     );
+    if(isPaid){
+    for (const item of updatedOrder.order){
+      await Product.findByIdAndUpdate(
+        {
+          _id: item._id,
+          quantity:{$gte:item.amount}
+        },
+        {
+          $inc:{quantity: -item.amount}
+        }
+      )
+    }
+  }
     if (!updatedOrder) {
       console.warn("⚠ Order not found or already updated:", transaction.order.id);
       console.log('they are equals===>',updatedOrder.paymobId===Number(transaction.order.id))

@@ -6,7 +6,6 @@ export async function GET(req:Request,{params}:{params:any}) {
         await mongooseConnection()
         const {userId}=await params
         const order=await Order.find({user:userId})
-        console.log(order)
         if(!order){
             return NextResponse.json({success:false,message:"orders Not found"})
         }

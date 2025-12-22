@@ -17,6 +17,7 @@ type Props = {
     description: string;
     price: string;
     parent: string;
+    quantity: string;
     category: string;
     images: string[];
     properties:{ name: string; values: [string]; }[];
@@ -77,6 +78,7 @@ const [images, setImages] = useState<SortableImage[]>(
     form.append("description", productData.description);
     form.append("price", productData.price);
     form.append("category", productData.category);
+    form.append("quantity", productData.quantity);
     form.append("categoryParent", productData.parent);
     form.append("properties", JSON.stringify(productData.properties || []));
     images.forEach((img) => {
@@ -239,6 +241,20 @@ const [images, setImages] = useState<SortableImage[]>(
             />
             {errors.price && (
               <p className="text-red-500 dark:text-red-100 text-xs">{errors.price.message}</p>
+            )}
+          </div>
+          <div className="mb-3">
+            <label className="text-blue-600 dark:text-white block">Available Quantity</label>
+            <input
+              {...register("quantity")}
+              type="number"
+              placeholder="Price"
+              className="outline-none dark:placeholder:text-gray-400 
+              w-full placeholder:text-gray-600 sm:w-[70%]
+               p-2 bg-gray-100 rounded-lg border border-gray-200 focus:border-gray-400"
+            />
+            {errors.quantity && (
+              <p className="text-red-500 dark:text-red-100 text-xs">{errors.quantity.message}</p>
             )}
           </div>
         <button

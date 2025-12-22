@@ -1,7 +1,6 @@
 import { mongooseConnection } from "@/lib/mongoose";
 import { Product } from "@/lib/model/products";
 import ProductBox from "./productBox";
-import { Order } from "@/lib/model/order";
 export default async function ProductsFetching({value}:{value:string}) {
   await mongooseConnection();
   let data:any;
@@ -11,14 +10,15 @@ export default async function ProductsFetching({value}:{value:string}) {
   ));
   }else{
     data = JSON.parse(JSON.stringify(
-    await Product.find({}).sort({ _id: -1 })));
+    await Product.aggregate([{$sample:{size:await Product.countDocuments()}}])))
   }
   
   return (
     <>
-      {data.map((product: any) => (
+      {data.map((product: any) => {
+        return product.quantity>0&&(
         <ProductBox key={product._id} product={product} />
-      ))}
+      )})}
     </>
   );
 }

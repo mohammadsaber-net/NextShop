@@ -10,6 +10,7 @@ export default function page({params}:{params:any}) {
     const dispatch = useDispatch()
     const [product,setProduct]=useState<any>({})
     const [images,setImages]=useState<any>([])
+    const [storage,setStorage]=useState<any>(null)
     const [loading,setLoading]=useState(false)
     const getProduct=async()=>{
         setLoading(true) 
@@ -22,7 +23,9 @@ export default function page({params}:{params:any}) {
     useEffect(()=>{
         getProduct()
     },[])
-    console.log(product)
+    useEffect(()=>{
+        setStorage(product.quantity)
+    },[product])
     const [close,setClose]=useState(false)
     const [showImage,setShowImage]=useState<any>(null)
  return !loading?(
@@ -35,7 +38,6 @@ export default function page({params}:{params:any}) {
                 <X />
             </button>
             <img
-            
             src={showImage} className='max-w-96 w-full h-full max-h-96' alt="" />
         </div>}
       <div
@@ -76,16 +78,24 @@ export default function page({params}:{params:any}) {
                 </div>
                 ))}
             </div>}
+            <div className='mt-2 font-bold tracking-wide text-gray-900'>
+               Available In Store: 
+               <span className='text-indigo-600'> 
+                {storage===0?"item is no longer available in store":storage}
+                </span>
+            </div>
             <p className='max-w-80 break-all mt-2 text-gray-700'>
                 <span className='font-bold block tracking-wide'>Description: </span>{product.description}
             </p>
         </div>
       </div>
       <button 
-      onClick={()=>dispatch(addOne(product._id))}
+      onClick={()=>{
+        if (storage === 0) return;
+        dispatch(addOne(product._id));setStorage(storage - 1)}}
       className={
         `block m-auto mt-4 text-center max-w-96 max-h-96 w-full h-full 
-      bg-indigo-600 text-white border-none cursor-pointer p-2 rounded
+      bg-indigo-600 text-white border-none ${storage===0?"pointer-event-none !bg-gray-800":"cursor-pointer"} p-2 rounded
       transition hover:bg-indigo-800`}>Add To Cart</button>
     </div>
   ):(

@@ -7,6 +7,7 @@ import { addOne, removeOne } from "@/redux/slices/cart"
 import { RootState } from "@/redux/store"
 import { BabyIcon } from "lucide-react"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 export default function page() {
   const [iframeUrl, setIframeUrl] = useState<string>("");
@@ -51,7 +52,13 @@ export default function page() {
                     <span className="max-w-28">{product.title}</span>
                   </td>
                   <td>
-                    <button onClick={()=>increase(product._id.toString())} className={btn}>+</button>
+                    <button onClick={()=>{
+                      if(product.quantity<=cartIds.filter((id:string)=>id===product._id.toString()).length) {
+                        toast.error("Sorry! the available amount in store are only "+product.quantity)
+                        return
+                      }
+                      increase(product._id.toString())}
+                      } className={btn}>+</button>
                     {cartIds.filter((id:string)=>id===product._id.toString()).length}
                     <button onClick={()=>decrease(product._id.toString())} className={btn}>-</button>
                   </td>

@@ -22,6 +22,10 @@ const schema = new mongoose.Schema({
             required: true
          }
     ],
+    quantity:{
+        type:Number,
+        required: true
+    },
     categoryParent:{type: String}, 
     properties: [{type:Object}]
 

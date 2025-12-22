@@ -28,6 +28,9 @@ export default async function Products() {
               price
             </th>
             <th>
+              quantity
+            </th>
+            <th>
               category
             </th>
             <th>
@@ -41,6 +44,7 @@ export default async function Products() {
             <tr key={item._id}>
               <td>{item.title}</td>
               <td>{item.price}</td>
+              <td>{item.quantity>0?item.quantity:"this product not available"}</td>
               <td>{item.category}</td>
               <td className='flex flex-col gap-1'><Link href={`/admin/products/${item._id}`}
               className='p-1 cursor-pointer rounded-md bg-blue-600 
