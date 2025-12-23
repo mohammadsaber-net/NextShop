@@ -5,12 +5,14 @@ import { api } from '@/lib/axios'
 import { addOne } from '@/redux/slices/cart';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 export default function page({params}:{params:any}) {
+    const cartIds=useSelector((state:any)=>state.cart)
     const dispatch = useDispatch()
     const [product,setProduct]=useState<any>({})
     const [images,setImages]=useState<any>([])
-    const [storage,setStorage]=useState<any>(null)
+    const [stock,setStock]=useState<any>(null)
     const [loading,setLoading]=useState(false)
     const getProduct=async()=>{
         setLoading(true) 
@@ -24,8 +26,9 @@ export default function page({params}:{params:any}) {
         getProduct()
     },[])
     useEffect(()=>{
-        setStorage(product.quantity)
-    },[product])
+        if (!product?._id) return;
+        setStock(cartIds.filter((item:any)=>item===product._id).length)
+    },[cartIds,product._id])
     const [close,setClose]=useState(false)
     const [showImage,setShowImage]=useState<any>(null)
  return !loading?(
@@ -79,9 +82,9 @@ export default function page({params}:{params:any}) {
                 ))}
             </div>}
             <div className='mt-2 font-bold tracking-wide text-gray-900'>
-               Available In Store: 
+               Available In the Stock: 
                <span className='text-indigo-600'> 
-                {storage===0?"item is no longer available in store":storage}
+                {stock>= product.quantity?"item is no longer available in the stock":(+product.quantity - +stock).toString()}
                 </span>
             </div>
             <p className='max-w-80 break-all mt-2 text-gray-700'>
@@ -91,12 +94,16 @@ export default function page({params}:{params:any}) {
       </div>
       <button 
       onClick={()=>{
-        if (storage === 0) return;
-        dispatch(addOne(product._id));setStorage(storage - 1)}}
+        if(stock>=product.quantity){
+            toast.error("Sorry! the available amount in Stock is only "+product.quantity)
+            return
+        }
+        dispatch(addOne(product._id))}}
       className={
         `block m-auto mt-4 text-center max-w-96 max-h-96 w-full h-full 
-      bg-indigo-600 text-white border-none ${storage===0?"pointer-event-none !bg-gray-800":"cursor-pointer"} p-2 rounded
-      transition hover:bg-indigo-800`}>Add To Cart</button>
+      bg-indigo-600 text-white border-none ${stock>=product.quantity?"pointer-event-none !bg-gray-800":"cursor-pointer"} p-2 rounded
+      transition hover:bg-indigo-800`}>Add To Cart
+      </button>
     </div>
   ):(
     <Loading />

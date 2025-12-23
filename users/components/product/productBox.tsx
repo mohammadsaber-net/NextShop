@@ -2,15 +2,17 @@
 import { addToCart} from '@/components/hero/Hero'
 import { addOne } from '@/redux/slices/cart'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from "framer-motion"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { animateToCart } from '../animations/animateToCart'
+import toast from 'react-hot-toast'
 type Product={
       _id: string,
       title: string,     
       description: string,
       category: string,
+      quantity: string,
       price: '31000',
       images: Array<string>,
       categoryParent: string,
@@ -22,7 +24,11 @@ type Product={
 export default function ProductBox({product,style}:{product:Product,style?:string}) {
     const dispatch=useDispatch()
     const imageRef=useRef<HTMLImageElement>(null)
-      
+    const cartIds=useSelector((state:any)=>state.cart)
+    const [stock,setStock]=useState<any>(null)
+    useEffect(()=>{
+      setStock(cartIds.filter((item:any)=>item===product._id).length)
+    },[cartIds])
   return (
     <motion.div 
     initial={{ opacity: 0, y: 40 }}
@@ -51,7 +57,13 @@ export default function ProductBox({product,style}:{product:Product,style?:strin
             </p>
             <button 
             
-            onClick={()=>{animateToCart(imageRef.current!);dispatch(addOne(product._id))}} 
+            onClick={()=>{
+              if(stock>=product.quantity){
+                toast.error("Sorry! the available amount in Stock is only "+product.quantity)
+                return
+              }
+              animateToCart(imageRef.current!);dispatch(addOne(product._id))
+            }} 
             className={addToCart}>
               Cart
             </button>

@@ -54,7 +54,7 @@ export default function page() {
                   <td>
                     <button onClick={()=>{
                       if(product.quantity<=cartIds.filter((id:string)=>id===product._id.toString()).length) {
-                        toast.error("Sorry! the available amount in store are only "+product.quantity)
+                        toast.error("Sorry! the available amount in Stock is only "+product.quantity)
                         return
                       }
                       increase(product._id.toString())}
