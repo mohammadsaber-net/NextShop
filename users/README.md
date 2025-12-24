@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ElectroShop – User Store
 
-## Getting Started
+ElectroShop User Store is the customer-facing application of the ElectroShop e-commerce platform.
+It allows users to browse electronics products, manage their cart, complete purchases securely and manage ther account.
 
-First, run the development server:
+## 🔗 Live Demo
+https://next-shop-ns5b.vercel.app/
 
-```bash
+---
+
+## 🚀 Features
+- User authentication with **NextAuth**
+- Browse electronics products
+- Product details & image gallery
+- Shopping cart with Redux Toolkit
+- Persistent cart using Redux Persist
+- Secure checkout with **Paymob**
+- Image handling with **Cloudinary**
+- Smooth animations using **Framer Motion**
+- Form validation with **React Hook Form** and **Zod**
+
+---
+
+## 🛠 Tech Stack
+- **Next.js**
+- **React**
+- **TypeScript**
+- **MongoDB & Mongoose**
+- **Redux Toolkit**
+- **NextAuth**
+- **Tailwind CSS**
+- **Paymob Payment Gateway**
+
+---
+
+## 📦 Installation
+
+Clone the repository and navigate to the user app:
+cd user
+npm install
+Run the development server:
+
+bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The app will run on:
+http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🔑 Environment Variables
+Create a .env file and add:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+env
+MONGODB_URI=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXTAUTH_URL=
+NEXTAUTH_SECRET=
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+COULD_API_KEY=
+COULD_SECRET_KEY=
+COULD_NAME=
 
-## Learn More
+PAYMOB_API_KEY=
+PAYMOB_INTEGRATION_ID=
+WEBHOOK_SECRET=
+IFRAME_ID=
+All environment variables must be set correctly for authentication and payments to work.
 
-To learn more about Next.js, take a look at the following resources:
+📁 Scripts
+npm run dev – Run development server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm run build – Build for production
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+npm run start – Start production server
 
-## Deploy on Vercel
+npm run lint – Run ESLint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+📌 Notes
+This is the customer-facing application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Payment integration is handled using Paymob.
+
+Designed as a real-world scalable e-commerce frontend.
+
+👨‍💻 Author
+Mohammad Saber

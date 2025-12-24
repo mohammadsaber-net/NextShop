@@ -12,7 +12,7 @@ hover:text-gray-700 transition duration-200 transform
 const navStyleMobile=`ps-3 p-2 text-lg font-medium
 transition duration-200 transform hover:bg-white hover:text-blue-600
 `
-const headerStyle="flex justify-between relative items-center p-3 bg-gradient-to-r from-purple-200 to-indigo-300"
+const headerStyle="flex justify-between fixed top-0 left-0 right-0 items-center p-3 bg-gradient-to-r from-purple-200 to-indigo-300"
 export default function Header() {
   const pathname=usePathname()
   const [showMobile,setShowMobile]=useState(false)
