@@ -1,15 +1,18 @@
 "use client"
-import { useSession} from "next-auth/react";
+import { signOut, useSession} from "next-auth/react";
 import ResponsiveNav from "@/components/nav/responsiveNav";
 import ProgressBar from "@/components/progress/ProgressBar";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "@/components/login/page";
 import { MenuIcon, StoreIcon, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { data: session } = useSession();
+  const { data: session,status } = useSession();
   const [mobile,setMobile]=useState(false)
   const Icon=mobile?X:MenuIcon
+  if(status==="loading"){
+    return null
+  }
   if (!session) {
     return (
       <div 
