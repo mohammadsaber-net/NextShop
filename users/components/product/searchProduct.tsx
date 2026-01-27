@@ -53,11 +53,11 @@ export default function SearchProduct() {
       placeholder="Search By Name" 
       value={letter}
       onChange={(e)=>setLetter(e.target.value)}
-      className={`transition-all duration-300 !rounded-b-[0] !p-0 
-      ${openInput?"!w-48 !h-7 !mb-0":"!h-0 !w-0"}`} />
+      className={`transition-all duration-300 !p-0 
+      ${openInput?"!h-7 !mb-0":"!h-0 !w-0"}`} />
       <div 
-      className={`top-[100%] ${letter&&"p-1"} left-0 rounded-b bg-white 
-      absolute w-48 max-h-80 overflow-y-auto z-[100000]`}>
+      className={`top-[100%] ${letter&&"p-1 pt-4"} left-0 rounded-md shadow bg-gray-200 
+      absolute w-full max-h-80 overflow-y-auto z-[100000]`}>
         {products.length>0&&openInput&&
         <div className="flex flex-col gap-2">
           {console.log(letter)}
@@ -66,9 +66,9 @@ export default function SearchProduct() {
             <div
             onClick={()=>details(prod._id)}
             key={prod._id} className="flex transition hover:text-indigo-600 border-b-1 border-gray-300 shadow mb-1 cursor-pointer gap-2">
-              <div>
+              <div className="w-full">
                 <img src={prod?.images[0]} className="w-10 h-10" alt={prod.title} />
-                <p className="text-xs md:text-sm">{prod.title}</p>
+                <p className="text-xs md:text-sm">{prod.title.slice(0,30)}...</p>
               </div>
               <small className="text-indigo-600">{prod.price} EGP</small>
             </div>

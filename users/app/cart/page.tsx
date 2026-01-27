@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 export default function page() {
   const [iframeUrl, setIframeUrl] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [total,setTotal]=useState(0)
   const btn="bg-gray-200 border-none px-2 py-1 cursor-pointer"
   const cartIds=useSelector((state:RootState)=>state?.cart)
   const [products,setProducts] = useState([])
@@ -25,6 +26,14 @@ export default function page() {
   const increase=(id:string)=>{
     dispatch(addOne(id))
   }
+  useEffect(()=>{
+    let sum=0
+    products.forEach((item:any)=>{
+      const count = cartIds.filter((id: string) => id === item._id.toString()).length
+      sum += count * item.price
+    })
+    setTotal(sum)
+  },[cartIds,products])
   const decrease=(id:string)=>{
     dispatch(removeOne(id))
   }
@@ -36,7 +45,8 @@ export default function page() {
             Cart Items ({cartIds.length})
           </h2>
           
-         {cartIds.length>0&&products.length&&<table>
+         {cartIds.length>0&&products.length&&
+         <table>
             <thead>
               <tr>
               <th>image & title</th>
@@ -45,7 +55,8 @@ export default function page() {
             </tr>
             </thead>
             <tbody>
-              {products.length>0&&products?.map((product:any)=>(
+              {products.length>0&&products?.map((product:any)=>{
+                return(
                 <tr key={product._id}>
                   <td className="flex gap-2 flex-col">
                     <img src={product.images[0]} alt={product.title} className="w-16 h-16 object-cover rounded" />
@@ -66,8 +77,18 @@ export default function page() {
                     EGP{cartIds.filter((id:string)=>id===product._id.toString()).length * product.price}
                   </td>
                   </tr>
-              ))}
+              )})}
             </tbody>
+            <tfoot >
+              <tr>
+                <td>
+                  Total Price                  
+                </td>
+                <td colSpan={2} className="text-indigo-600">
+                  {total} EGP
+                </td>
+              </tr>
+            </tfoot>
           </table>}
           {cartIds.length>0&&products.length===0&&!iframeUrl&&<Loading2 />}
           {cartIds.length===0&&<h3 className="flex gap-2 mt-4 text-indigo-600">Empty Cart <BabyIcon /></h3>}

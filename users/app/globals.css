@@ -68,6 +68,9 @@ table tbody tr td{
 table thead tr th{
   @apply border border-gray-200 p-1 text-xs md:text-base md:p-2
 }
+table tfoot tr td{
+  @apply border border-gray-200 p-1 pt-3 font-semibold text-xs md:text-base md:p-2
+}
 input{
   @apply border dark:bg-gray-700 mb-2 block dark:text-white border-gray-300 rounded-md p-1 bg-gray-50 block focus:outline-none focus:ring-blue-500 focus:border-transparent
 }

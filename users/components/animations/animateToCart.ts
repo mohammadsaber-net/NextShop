@@ -7,7 +7,7 @@ export function animateToCart(image:HTMLImageElement){
     const cartRect=cart.getBoundingClientRect()
     const clone=image.cloneNode(true) as HTMLImageElement
     clone.style.position="fixed"
-    clone.style.left=`${imageRect.left}px`
+    clone.style.left=`${imageRect.right}px`
     clone.style.top=`${imageRect.top}px`
     clone.style.width=`150px`
     clone.style.height=`150px`

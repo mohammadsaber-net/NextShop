@@ -34,7 +34,8 @@ export default function Header() {
             <Link 
             className={`${pathname.includes("/category")&&"!text-blue-600" } ${navStyle}`}
              href={"/category"}>Categories</Link>
-            <Link id="cart-icon"
+            <Link 
+            id="cart-icon"
              className={`${pathname.includes("/cart")&&"!text-blue-600" } ${navStyle} relative items-center flex`}
               href={"/cart"}>
               <ShoppingCart className="size-6" />
