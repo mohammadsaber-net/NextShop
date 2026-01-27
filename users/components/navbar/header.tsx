@@ -12,7 +12,7 @@ hover:text-gray-700 transition duration-200 transform
 const navStyleMobile=`ps-3 p-2 text-lg font-medium
 transition duration-200 transform hover:bg-white hover:text-blue-600
 `
-const headerStyle="flex justify-between fixed top-0 left-0 right-0 items-center p-3 bg-gradient-to-r from-purple-200 to-indigo-300"
+const headerStyle="flex justify-between fixed z-50 top-0 left-0 right-0 items-center p-3 bg-gradient-to-r from-purple-200 to-indigo-300"
 export default function Header() {
   const pathname=usePathname()
   const [showMobile,setShowMobile]=useState(false)
@@ -63,7 +63,7 @@ export default function Header() {
             </div>
             <nav
             className={`absolute py-2 md:hidden transition-all duration-300 top-[100%] 
-            right-0 w-full flex flex-col bg-gradient-to-r from-purple-200 to-indigo-300
+            right-0 w-full flex flex-col bg-gradient-to-r z-50 from-purple-200 to-indigo-300
             ${showMobile?
             "translate-y-0 z-40 opacity-100 pointer-events-auto":
             "opacity-0 -z-40 translate-y-8 pointer-events-none"}`}>
