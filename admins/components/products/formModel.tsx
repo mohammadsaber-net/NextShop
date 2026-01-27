@@ -135,7 +135,7 @@ const [images, setImages] = useState<SortableImage[]>(
             className="outline-none p-2 dark:placeholder:text-gray-400 bg-gray-100 placeholder:text-gray-600 rounded-lg w-full sm:w-[70%] border border-gray-200 focus:border-gray-400"
           />
           {errors.title && (
-            <p className="text-red-500 dark:text-red-100 text-xs">{errors.title.message}</p>
+            <p className="text-red-500  dark:text-white text-xs">{errors.title.message}</p>
           )}
         </div>
           <div  className="mb-3">
@@ -155,7 +155,7 @@ const [images, setImages] = useState<SortableImage[]>(
               }
             </select>
             {errors.category && (
-              <p className="text-red-500 dark:text-red-100 text-xs">{errors.category.message}</p>
+              <p className="text-red-500  dark:text-white text-xs">{errors.category.message}</p>
             )}
             {categoryProperty?.parent&&<div className=" flex gap-1 items-center">
               type: <input id="parentcat" type="radio" 
@@ -228,7 +228,7 @@ const [images, setImages] = useState<SortableImage[]>(
             className="outline-none p-2 dark:text-white bg-gray-100 dark:bg-gray-700 placeholder:text-gray-600 dark:placeholder:text-gray-400 w-full sm:w-[70%] rounded-lg border border-gray-200 resize-none h-28 focus:border-gray-400"
           ></textarea>
           {errors.description && (
-            <p className="text-red-500 dark:text-red-100 text-xs">{errors.description.message}</p>
+            <p className="text-red-500  dark:text-white text-xs">{errors.description.message}</p>
           )}
         </div>
           <div className="mb-3">
@@ -240,21 +240,21 @@ const [images, setImages] = useState<SortableImage[]>(
               className="outline-none dark:placeholder:text-gray-400 w-full placeholder:text-gray-600 sm:w-[70%] p-2 bg-gray-100 rounded-lg border border-gray-200 focus:border-gray-400"
             />
             {errors.price && (
-              <p className="text-red-500 dark:text-red-100 text-xs">{errors.price.message}</p>
+              <p className="text-red-500 dark:text-white text-xs">{errors.price.message}</p>
             )}
           </div>
           <div className="mb-3">
-            <label className="text-blue-600 dark:text-white block">Available Quantity</label>
+            <label className="text-blue-600 dark:text-white block">Stock</label>
             <input
               {...register("quantity")}
               type="number"
-              placeholder="Price"
+              placeholder="Stock"
               className="outline-none dark:placeholder:text-gray-400 
               w-full placeholder:text-gray-600 sm:w-[70%]
                p-2 bg-gray-100 rounded-lg border border-gray-200 focus:border-gray-400"
             />
             {errors.quantity && (
-              <p className="text-red-500 dark:text-red-100 text-xs">{errors.quantity.message}</p>
+              <p className="text-red-500 dark:text-white text-xs">{errors.quantity.message}</p>
             )}
           </div>
         <button
