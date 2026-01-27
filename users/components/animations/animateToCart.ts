@@ -6,9 +6,10 @@ export function animateToCart(image:HTMLImageElement){
     const imageRect=image.getBoundingClientRect()
     const cartRect=cart.getBoundingClientRect()
     const clone=image.cloneNode(true) as HTMLImageElement
-    clone.style.position="fixed"
-    clone.style.left=`${imageRect.right}px`
-    clone.style.top=`${imageRect.top}px`
+    clone.style.position = "absolute"
+    clone.style.left = `${imageRect.left + window.scrollX}px`
+    clone.style.top  = `${imageRect.top + window.scrollY}px`
+
     clone.style.width=`150px`
     clone.style.height=`150px`
     clone.style.pointerEvents="none"
@@ -22,7 +23,7 @@ export function animateToCart(image:HTMLImageElement){
             opacity: 0.4,
         },
         {
-            duration:0.9,
+            duration:1.5,
             ease:"easeInOut",
             onComplete:() => clone.remove()
         }
