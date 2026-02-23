@@ -9,7 +9,7 @@ export async function GET(req: Request, {params}:{params:any}) {
     await mongooseConnection();
     const {id}=await params
     const product = await Product.findById(id);
-    if (!product) {
+    if (!product) { 
       return NextResponse.json({ success: false});
     }
     return NextResponse.json({ success: true, data: product });
