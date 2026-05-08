@@ -18,6 +18,7 @@ export async function POST(req:Request) {
         delete userObj.password;
         return NextResponse.json({success:true,user:userObj})
     } catch (error) {
+        console.log("error 203.0.113.10/32" ,error)
         return NextResponse.json({success:false,message:(error as Error).message})
     }
 }

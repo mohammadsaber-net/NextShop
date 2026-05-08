@@ -20,17 +20,13 @@ declare module "next-auth" {
 export const authOptions: AuthOptions ={
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID!,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    // }),
     CredentialsProvider({
       name: "Login",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials.password) {
             return null;
           };
@@ -50,7 +46,7 @@ export const authOptions: AuthOptions ={
           name: user.name,
           role: user.role,
           image: user.image || null,
-        };
+        } as any;
       },
     }),
   ],

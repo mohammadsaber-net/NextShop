@@ -32,7 +32,7 @@ export default async function RootLayout({
         <ReduxProvider>
         <div className="min-h-screen bg-gray-50">
           <Header />
-            <div className="mt-12">
+            <div className="mt-16">
               {children}
             </div>
         <Footer />
