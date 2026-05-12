@@ -29,6 +29,7 @@ export async function POST(req:Request){
             }
         let hashedPassword = await bcrypt.hash(password, 10);
         const user=await User.create({name,email,address,password: hashedPassword,phone,role:"CUSTOMER",image:uploadedImages})
+        console.log(user)
         return NextResponse.json({success:true,user})
     } catch (error) {
         return NextResponse.json({success:false,message:(error as Error).message})

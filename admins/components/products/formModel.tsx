@@ -88,6 +88,7 @@ const [images, setImages] = useState<SortableImage[]>(
         form.append("existingImages", img.url);
       }
     });
+    console.log(productData.parent,productData.category)
     if (mode === "add") {
         try {
           const { data } = await axios.post("/api/products", form,{withCredentials:true});

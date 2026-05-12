@@ -2,6 +2,7 @@ import { Order } from "@/lib/model/order";
 import { Product } from "@/lib/model/products";
 import { User } from "@/lib/model/user";
 import { mongooseConnection } from "@/lib/mongoose";
+import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 export async function POST(req: Request){
     try {
@@ -34,10 +35,11 @@ export async function POST(req: Request){
         }
         order.push(data)
       }
+      let hashedPassword = await bcrypt.hash(password, 10); 
       if(!existUser){
         existUser=await User.create({
           name,email,phone,address,image:"images/defaultProfile.png"
-          ,password:password||"gold123",role:"CUSTOMER"
+          ,password:hashedPassword,role:"CUSTOMER"
         })
       }
       const OrderId=await Order.create({payMethod:payMethod||"card",user:existUser._id,paymobId:123,order,payment:false})

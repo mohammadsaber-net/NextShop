@@ -32,7 +32,7 @@ export default function page({params}:{params:any}) {
     const [close,setClose]=useState(false)
     const [showImage,setShowImage]=useState<any>(null)
  return !loading?(
-    <div className='w-[90%] mx-auto sm:w-[85%] mt-4 mb-8 lg:max-w-[75%] max-w-3xl'>
+    <div className='w-[90%] mx-auto sm:w-[85%] min-h-[80vh] mt-4 mb-8 lg:max-w-[75%] max-w-3xl'>
         {close&&<div onClick={()=>setClose(false)} 
         className='fixed flex items-center justify-center bg-gray-300/70 top-0 z-50 left-0 bottom-0 right-0'>
             <button 

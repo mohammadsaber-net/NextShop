@@ -17,9 +17,8 @@ export default async function ProductsFetching({value}:{value:string}) {
   return (
     <>
       {data.map((product: any) => {
-        return product.quantity>0&&(
-        <ProductBox key={product._id} product={product} />
-      )})}
+        return product.quantity>0&&(<ProductBox key={product._id} product={product} />)
+       })}
     </>
   );
 }

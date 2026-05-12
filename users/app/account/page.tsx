@@ -1,4 +1,5 @@
 "use client"
+import OrdersList from "@/components/account/OrderList"
 import Loading2 from "@/components/animations/Loading2"
 import Paymob from "@/components/paymob/Paymob"
 import Update from "@/components/user/Update"
@@ -69,7 +70,7 @@ export default function page() {
       setLoading2(null)
     }
   return (
-    <div className="w-[90%] mx-auto sm:w-[85%] lg:max-w-[75%] max-w-3xl">
+    <div className="w-[90%] mx-auto min-h-[90vh] sm:w-[85%] lg:max-w-[75%] max-w-3xl">
       {pay&&<Paymob 
       iframeUrl={iframeUrl}
       setPay={setPay}/>}
@@ -133,7 +134,13 @@ export default function page() {
         </button>
         </div>
       </div>}
-      <div className="max-h-[400px] overflow-auto">
+      <OrdersList 
+      order={order}
+      loading2={loading2}
+      handlePay={handlePay}
+      user={user}
+      />
+      {/* <div className="max-h-[400px] overflow-auto">
       {order?.length>0&&(
     <div className="min-w-[600px] overflow-x-auto">
       <table className="min-w-[450px]">
@@ -206,8 +213,8 @@ export default function page() {
         <div>
           <Link  className="text-blue-700 text-semibold" href={"/"}>Browse Now!</Link>  and see our Latest products
         </div> 
-        </div>}
+        </div>} */}
       </div>
-    </div>
+    // </div>
   )
 }

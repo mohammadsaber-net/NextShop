@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     const description = formData.get("description") as string;
     const price = formData.get("price") as string;
     const quantity = formData.get("quantity") as string;
-    const category = formData.get("categoryParent") as string;
+    const category = formData.get("category") as string;
     const categoryParent = formData.get("categoryParent") as string;
     const properties = JSON.parse(formData.get("properties") as string);
     const images = formData.getAll("images") as File[];
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     if (!quantity) {
           return NextResponse.json({ success: false, message: "add at least one" });
         }
-  const product=await Product.create({title,description,quantity,category,price,categoryParent:categoryParent||null,properties:properties||null,images:uploadedImages})
+  const product=await Product.create({title,description,quantity,category,price,categoryParent,properties:properties||null,images:uploadedImages})
   
   return NextResponse.json({ success: true,product});
 } catch (error) {

@@ -38,7 +38,7 @@ export default function page() {
     dispatch(removeOne(id))
   }
   return (
-    <div className="w-[90%] mt-5 md:w-[80%] lg:w-[70%] mx-auto">
+    <div className="w-[90%] mt-5 md:w-[80%] min-h-[80vh] lg:w-[70%] mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-[1.3fr_0.7fr] gap-4">
         <div className="p-2 bg-white rounded shadow">
           <h2 className="text-xl sm:text-2xl lg:text-3xl">

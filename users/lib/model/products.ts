@@ -10,7 +10,6 @@ const schema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true,
     },
     price: {
         type: String,
@@ -26,7 +25,10 @@ const schema = new mongoose.Schema({
         type:Number,
         required: true
     },
-    categoryParent:{type: String}, 
+    categoryParent:{
+        type: String,
+        required:true
+    },
     properties: [{type:Object}]
 
 });

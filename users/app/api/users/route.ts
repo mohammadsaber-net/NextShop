@@ -6,16 +6,18 @@ export async function POST(req:Request) {
     try {
         await mongooseConnection()
         const {email,password}=await req.json()
-        const user=await User.findOne({email:{$in:email}})
+        const user = await User.findOne({ email })
         if(!user){
             return NextResponse.json({success:false,message:"user Not Found"})
         }
+        console.log(user)
+        console.log(user.password===password)
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch){
             return NextResponse.json({success:false,message:"password is incrrect"})
         }
         const userObj = user.toObject();
-        delete userObj.password;
+          delete userObj.password;
         return NextResponse.json({success:true,user:userObj})
     } catch (error) {
         console.log("error 203.0.113.10/32" ,error)

@@ -1,5 +1,6 @@
 "use client"
 import ImageGallery from "react-image-gallery";
+// @ts-expect-error
 import "react-image-gallery/styles/css/image-gallery.css";
 export const H1Style = "text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6";
 export const seeMore = `group relative inline-flex items-center justify-center px-8 py-3 
@@ -50,16 +51,16 @@ export default function Hero() {
   );
 
   return (
-    <div className="relative min-h-[600px] flex items-center overflow-hidden bg-[#0f172a]">
+    <div className="relative -mt-8 min-h-[70vh] flex items-center overflow-hidden bg-[#0f172a]">
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/20 blur-[120px] rounded-full" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 blur-[120px] rounded-full" />
-      <div className="w-[90%] mx-auto lg:max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10 py-12">
+      <div className="w-[90%] mx-auto lg:max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center relative z-10 py-12">
         <div className="text-center md:text-left">
-          <span className="inline-block px-4 py-1 mb-4 text-xs font-semibold tracking-wider text-indigo-400 uppercase bg-indigo-400/10 border border-indigo-400/20 rounded-full">
+          <span className="inline-block  px-4 py-1 mb-4 text-xs font-semibold tracking-wider text-indigo-400 uppercase bg-indigo-400/10 border border-indigo-400/20 rounded-full">
             Next Gen Electronics
           </span>
           <h1 
-          className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6">
+          className="text-2xl md:text-4xl font-extrabold tracking-tight text-white leading-[1.1] mb-6">
             Upgrade Your 
             <span 
             className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400"
@@ -67,7 +68,7 @@ export default function Hero() {
             <br />
             Level Up Your Life.
           </h1>
-          <p className="max-w-lg text-slate-400 text-lg mb-8 leading-relaxed">
+          <p className="max-w-lg text-slate-400 md:text-lg mb-8 leading-relaxed">
             Experience the future of connectivity with our curated collection of high-performance devices and premium accessories.
           </p>
           
@@ -80,13 +81,9 @@ export default function Hero() {
             </button>
           </div>
         </div>
-
-        {/* قسم الصور المطور */}
-        <div className="relative group">
-          {/* إطار خلفي جمالي */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-          
-          <div className="relative bg-slate-900 rounded-[2rem] p-2 border border-white/10 shadow-2xl overflow-hidden">
+        <div className="relative w-[70%] md:w-[85%] max-w-xl m-auto group">
+          <div className="absolute w-fit -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+          <div className="relative w-fit bg-slate-900 rounded-[2rem] p-2 border border-white/10 shadow-2xl overflow-hidden">
             <ImageGallery
               showPlayButton={false}
               showIndex={false}
@@ -96,6 +93,7 @@ export default function Hero() {
               autoPlay={true}
               slideDuration={800}
               showNav={false}
+              additionalClass="md:h-80 h-44 sm:h-60"
               showThumbnails={false}
             />
           </div>

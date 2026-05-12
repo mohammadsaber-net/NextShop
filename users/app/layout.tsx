@@ -1,5 +1,7 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+// @ts-expect-error
 import "./globals.css";
 import Header from "@/components/navbar/header";
 import ReduxProvider from "@/redux/provider";
@@ -32,7 +34,7 @@ export default async function RootLayout({
         <ReduxProvider>
         <div className="min-h-screen bg-gray-50">
           <Header />
-            <div className="mt-16">
+            <div className="pt-24">
               {children}
             </div>
         <Footer />
