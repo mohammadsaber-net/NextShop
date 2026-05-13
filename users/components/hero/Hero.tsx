@@ -1,6 +1,6 @@
 "use client"
 import ImageGallery from "react-image-gallery";
-// @ts-expect-error
+// @ts-ignore
 import "react-image-gallery/styles/css/image-gallery.css";
 export const H1Style = "text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6";
 export const seeMore = `group relative inline-flex items-center justify-center px-8 py-3 
