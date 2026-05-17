@@ -27,6 +27,7 @@
     "react-hot-toast": "^2.6.0",
     "react-sortablejs": "^6.1.4",
     "react-spinners": "^0.17.0",
+    "recharts": "^3.8.1",
     "zod": "^4.1.12"
   },
   "devDependencies": {

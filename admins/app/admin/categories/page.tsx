@@ -7,10 +7,10 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { deleteCategory, getCate } from "./controllar";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { main_title } from "@/components/ccsStyles";
 
 export default function Page() {
   const [showUpdate, setShowUpdate] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<any[]>([]);
   useEffect(() => {
     getCate().then(data => setCategories(data));
@@ -47,6 +47,7 @@ export default function Page() {
   }, [showUpdate, reset]);
   const handleProperty = () => append({ name: "", values: "" });
   const onSubmit = async (data: any) => {
+    setLoading(true)
     const parentCategories = data.parent || undefined;
     const dataToBeSent = {
       name: data.name,
@@ -79,12 +80,13 @@ export default function Page() {
     } catch (error) {
       toast.error((error as Error).message || "Something went wrong");
     }
+    setLoading(false)
   };
 
   const updateData = (item: any) => setShowUpdate(item);
   return (
     <div>
-      <h2 className={main_title}>
+      <h2 className="text-xl md:text-3xl font-semibold mb-2 border-b border-gray-300">
         Categories
       </h2>
       <div className="text-blue-600 dark:text-white capitalize mb-3">
@@ -92,12 +94,12 @@ export default function Page() {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-1 mb-2">
-          <div className="flex-1">
+          <div >
             <input
               {...register("name")}
               type="text"
               placeholder="Category name"
-              className="w-full p-2 rounded-lg border border-gray-200 bg-gray-100 dark:bg-gray-700 focus:border-gray-400 outline-none"
+              className="h-12"
             />
             {errors.name && (
               <p className="text-red-500 text-xs">{errors.name.message?.toString()}</p>
@@ -105,7 +107,7 @@ export default function Page() {
           </div>
           <select
             {...register("parent")}
-            className="p-2 h-10 rounded-lg cursor-pointer border border-gray-200 bg-gray-100 focus:border-gray-400 outline-none"
+             className="h-12"
           >
             <option value="">Uncategorized</option>
             {categories.map((cat) => (
@@ -127,12 +129,12 @@ export default function Page() {
 
           {fields.length > 0 &&
             fields.map((item, index) => (
-              <div key={index} className="flex gap-1 mb-1">
+              <div key={index} className="flex items-center gap-1 mb-1">
                 <div>
                   <input
                   {...register(`properties.${index}.name`)}
                   placeholder="Property name (like: color)"
-                  className="flex-1 p-1 w-full rounded border border-gray-200 bg-gray-100 outline-none"
+                  className="flex-1 w-full rounded border border-gray-200 bg-gray-100 outline-none"
                 />
                 </div>
                 <div>
@@ -140,7 +142,7 @@ export default function Page() {
                 <input
                   {...register(`properties.${index}.values`)}
                   placeholder="Property value (like: red)"
-                  className="flex-1 p-1 w-full rounded border border-gray-200 bg-gray-100 outline-none"
+                  className="flex-1 w-full rounded border border-gray-200 bg-gray-100 outline-none"
                   />
                   </div>
                 <button
@@ -148,7 +150,7 @@ export default function Page() {
                   onClick={() => {
                     remove(index)
                   }}
-                  className="bg-red-600 cursor-pointer text-white px-3 rounded"
+                  className="text-rose-600 dark:text-rose-100 cursor-pointer px-2 rounded-lg"
                 >
                   Remove
                 </button>
@@ -159,10 +161,10 @@ export default function Page() {
         <div className="flex gap-3">
           <button
             type="submit"
-            disabled={!isValid}
-            className={`px-5 py-1 h-10 cursor-pointer rounded-lg text-white ${
-              isValid ? "bg-blue-800 hover:bg-blue-900" : "bg-gray-700 cursor-not-allowed"
-            }`}
+            disabled={!isValid || loading}
+            className={`px-5 py-1 h-10 cursor-pointer rounded-lg text-white
+            bg-blue-800 hover:bg-blue-900 disabled:bg-gray-700 disabled:cursor-not-allowed
+            `}
           >
             Save
           </button>
@@ -197,12 +199,12 @@ export default function Page() {
               {categories.length ? (
                 categories.map((cat) => (
                   <tr key={cat._id} className="hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                    <td className="border p-1">{cat.name}</td>
-                    <td className="border p-1">{cat.parent?.name || "-"}</td>
-                    <td className="flex gap-1 border p-1">
+                    <td >{cat.name}</td>
+                    <td >{cat.parent?.name || "-"}</td>
+                    <td className="flex flex-col gap-2">
                       <button
                         onClick={() => updateData(cat)}
-                        className="flex-1 cursor-pointer bg-blue-600 text-white rounded px-2 py-1"
+                        className="flex-1 cursor-pointer bg-cyan-600 text-white rounded px-2 py-1"
                       >
                         Update
                       </button>

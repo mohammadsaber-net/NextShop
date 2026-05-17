@@ -10,7 +10,6 @@ export default function page() {
   const [data,setData]=useState<any>(null)
   const { data: session, status } = useSession();
   if (status === "loading") return <Loading />; 
-
   if (!session || session.user.role !== "MANAGER") {
     return <p>Access Denied</p>;
   }

@@ -47,7 +47,7 @@ export default async function Products() {
               <td>{item.quantity>0?item.quantity:"this product not available"}</td>
               <td>{item.category}</td>
               <td className='flex flex-col gap-1'><Link href={`/admin/products/${item._id}`}
-              className='p-1 cursor-pointer rounded-md bg-blue-600 
+              className='p-1 cursor-pointer rounded-md bg-cyan-600 
               text-white'>Update</Link>
               <DeleteProduct id={item._id.toString()} title={item.title}/>
               </td>

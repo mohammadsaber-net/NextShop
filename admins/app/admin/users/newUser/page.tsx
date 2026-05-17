@@ -52,12 +52,9 @@ export default function AddUserPage() {
             setIsSubmitting(false);
         }
     }
-
     return (
-        <div className=" dark:bg-[#0f172a] bg-transparent py-4 px-4">
+        <div className="p-4">
             <div className="max-w-3xl mx-auto">
-                
-                {/* Header */}
                 <div className="flex items-center gap-3 mb-8">
                     <div className="bg-indigo-600 p-2 rounded-lg">
                         <UserPlus className="text-white size-6" />
@@ -68,7 +65,6 @@ export default function AddUserPage() {
                     </div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} className="bg-slate-200 dark:bg-slate-800/40 backdrop-blur-md border border-white/5 p-8 rounded-3xl shadow-2xl">
-                    
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="name" className="form-label flex items-center gap-2">
@@ -98,22 +94,18 @@ export default function AddUserPage() {
                             <input type="number" id='phone' placeholder="0123..." {...register("phone")} className="form-input [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
                             {errors.phone && <p className='text-red-400 text-xs mt-1'>{errors.phone.message as string}</p>}
                         </div>
-
-                        {/* Role Selection */}
                         <div>
                             <label htmlFor="role" className="form-label flex items-center gap-2">
                                 <Shield className="size-4 text-indigo-400" /> الصلاحية
                             </label>
                             <select id="role" {...register("role")} className="form-input appearance-none cursor-pointer">
-                                <option value="" className="bg-slate-800">اختر الرتبة...</option>
-                                <option value="CUSTOMER" className="bg-slate-800">عميل (Customer)</option>
-                                <option value="MANAGER" className="bg-slate-800">مدير (Manager)</option>
-                                <option value="ADMIN" className="bg-slate-800">مسؤول (Admin)</option>
+                                <option value="" >اختر الرتبة...</option>
+                                <option value="CUSTOMER" >عميل (Customer)</option>
+                                <option value="MANAGER" >مدير (Manager)</option>
+                                <option value="ADMIN" >مسؤول (Admin)</option>
                             </select>
                             {errors.role && <p className='text-red-400 text-xs mt-1'>{errors.role.message as string}</p>}
                         </div>
-
-                        {/* Image Upload */}
                         <div>
                             <label htmlFor="image" className="form-label flex items-center gap-2">
                                 <ImageIcon className="size-4 text-indigo-400" /> صورة الحساب
@@ -139,10 +131,7 @@ export default function AddUserPage() {
                             </div>
                             {errors.image && <p className='text-red-400 text-xs mt-1'>{errors.image.message as string}</p>}
                         </div>
-
                     </div>
-
-                    {/* Submit Button */}
                     <div className="mt-10">
                         <button 
                             type='submit' 

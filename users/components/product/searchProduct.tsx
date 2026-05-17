@@ -1,84 +1,3 @@
-// "use client"
-// import { api } from "@/lib/axios";
-// import { SearchIcon } from "lucide-react";
-// import { useEffect, useRef, useState } from "react";
-// import toast from "react-hot-toast";
-// import { useRouter } from "next/navigation"
-// export default function SearchProduct() {
-//     const [openInput,setOpenInput]=useState<boolean>(false)
-//     const [products,setProducts]=useState<any>([])
-//     const [letter,setLetter]=useState<string>("")
-//     const containerRef = useRef<HTMLDivElement>(null)
-//     const getProducts=async()=>{
-//       try {
-//         const {data}=await api.get("/api/products")
-//         console.log(data)
-//         if(data.success){
-//           setProducts(data.data)
-//         }
-//       } catch (error) {
-//         toast.error("there a problem in searching, please try again")
-//       }
-//     }
-//     const router=useRouter()
-//     const details=(id:any)=>{
-//       router.push("/AllProducts/"+id)
-//       setLetter("")
-//       setOpenInput(false)
-//     }
-//     useEffect(()=>{
-//       !openInput&&setLetter("")
-//     },[openInput])
-//     useEffect(() => {
-//     const handleClickOutside = (e: MouseEvent) => {
-//       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-//         setOpenInput(false)
-//         setLetter("")
-//       }
-//     }
-
-//     document.addEventListener("mousedown", handleClickOutside)
-//     return () => document.removeEventListener("mousedown", handleClickOutside)
-//   }, [])
-//   return (
-//     <div ref={containerRef} className="relative flex items-center">
-//        {!openInput&&
-//        <div onClick={()=>{getProducts();setOpenInput(true)}} 
-//        className="flex cursor-pointer text-white items-center">
-//          ابحث<SearchIcon/>
-//        </div>
-//        }
-//       <input 
-//       type="text"
-//       placeholder="Search By Name" 
-//       value={letter}
-//       onChange={(e)=>setLetter(e.target.value)}
-//       className={`transition-all duration-300 !p-0 
-//       ${openInput?"!h-7 opacity-100 !mb-0":"!h-0 opacity-0 !w-0"}`} />
-//       <div 
-//       className={`top-[100%] ${letter&&"p-1 pt-4"} left-0 rounded-md shadow bg-gray-200 
-//       absolute w-full max-h-80 overflow-y-auto z-[100000]`}>
-//         {products.length>0&&openInput&&
-//         <div className="flex flex-col gap-2">
-//           {console.log(letter)}
-//           {letter&&products.filter((item:any)=>item.title.toLowerCase().includes(letter.toLowerCase()))
-//           .map((prod:any)=>(
-//             <div
-//             onClick={()=>details(prod._id)}
-//             key={prod._id} className="flex transition hover:text-indigo-600 border-b-1 border-gray-300 shadow mb-1 cursor-pointer gap-2">
-//               <div className="w-full">
-//                 <img src={prod?.images[0]} className="w-10 h-10" alt={prod.title} />
-//                 <p className="text-xs md:text-sm">{prod.title.slice(0,30)}...</p>
-//               </div>
-//               <small className="text-indigo-600">{prod.price} EGP</small>
-//             </div>
-//           ))}
-//         </div>}
-//         {products===0&&openInput&&<div>there no products yet</div>}
-//       </div>
-//     </div>
-//   )
-// }
 "use client"
 import { api } from "@/lib/axios";
 import { SearchIcon, X } from "lucide-react";
@@ -116,7 +35,6 @@ export default function SearchProduct() {
 
   return (
     <div ref={containerRef} className="relative">
-      {/* حقل البحث: بسيط وهادئ */}
       <div 
         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all duration-300
         ${openInput ? "bg-slate-800 border-slate-600 w-48 md:w-64" : "bg-transparent border-transparent w-24"}`}

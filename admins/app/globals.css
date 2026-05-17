@@ -44,7 +44,7 @@ body {
 .hide-scrollbar {
   scrollbar-width: none;
 }
-table{
+/* table{
   @apply w-full text-center shadow text-[10px] md:text-base min-w-[300px] overflow-y-auto
 }
 table tbody tr td{
@@ -52,8 +52,21 @@ table tbody tr td{
 }
 table thead tr th{
   @apply border border-gray-200 p-1 text-[10px] md:text-base md:p-2
+} */
+@layer components {
+  table {
+    @apply w-full text-left text-slate-600 dark:text-slate-300 border-collapse tracking-normal rounded-2xl overflow-hidden;
+  }
+  table thead tr th {
+    @apply bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-bold text-xs md:text-sm uppercase tracking-wider p-3 md:p-4 text-center;
+  }
+  table tbody tr {
+    @apply border-b border-slate-300 dark:border-slate-800 transition-colors duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-800/50;
+  }
+  table tbody tr td {
+    @apply p-3 md:p-4 text-xs md:text-base text-slate-700 dark:text-slate-300 font-medium text-center align-middle;
+  }
 }
-
 input {
   @apply w-full rounded-2xl px-4 py-3
 
@@ -82,8 +95,24 @@ input {
 label {
   @apply block text-sm font-medium text-slate-400 mb-1.5 ml-1;
 }
-select{
-  @apply border border-gray-300 dark:bg-gray-700 dark:text-white rounded-md p-1 bg-gray-100 block focus:outline-none focus:ring-blue-500 focus:border-transparent
+select {
+  @apply  w-full rounded-2xl px-4 py-3
+  bg-white/60 dark:bg-slate-900/40
+  backdrop-blur-xl
+  text-slate-800 dark:text-white
+  border border-white/30 dark:border-slate-700/60
+  placeholder:text-slate-400 dark:placeholder:text-slate-500
+  shadow-[0_4px_20px_rgba(0,0,0,0.06)]
+  transition-all duration-300 ease-out
+  focus:outline-none
+  focus:border-indigo-500/70
+  focus:ring-4
+  focus:ring-indigo-500/20
+  hover:shadow-[0_8px_30px_rgba(99,102,241,0.12)]
+  hover:border-slate-300 dark:hover:border-slate-600;
+}
+option {
+  @apply bg-white/60 dark:bg-slate-900/40 
 }
 .loader {
   width: 50px;

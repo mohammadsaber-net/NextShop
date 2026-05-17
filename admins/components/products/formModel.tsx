@@ -30,6 +30,7 @@ type SortableImage = {
 };
 export default function FormModel({ mode, product }: Props) {
   const[ categoryProperty,setCategoryProperty]=useState<any>(null)
+  const[ loading,setLoading]=useState<boolean>(false)
   const [category,setCategory]=useState<any>([])
   useEffect(()=>{
     getCate().then(date=>setCategory(date))
@@ -73,7 +74,7 @@ const [images, setImages] = useState<SortableImage[]>(
   };
   const onSubmit = async (productData: any) => {
     const form = new FormData();
-    console.log(productData)
+    setLoading(true)
     form.append("title", productData.title);
     form.append("description", productData.description);
     form.append("price", productData.price);
@@ -92,23 +93,23 @@ const [images, setImages] = useState<SortableImage[]>(
     if (mode === "add") {
         try {
           const { data } = await axios.post("/api/products", form,{withCredentials:true});
-          if (data.success) {
+          if (data.success) {        
+            setLoading(true)
             toast.success("Product added"); 
-          return router.push("/admin/products");
-        }
-        return toast.error(data.message||"Failed to add product");
+            return router.push("/admin/products");
+          }
+          return toast.error(data.message||"Failed to add product");
         } catch (error) {
-      return toast.error((error as Error).message);
-    }
-      } else {
-        const { data } = await axios.patch(`/api/products/${product?._id}`, form,{withCredentials:true});
+        return toast.error((error as Error).message);
+      }}else{
+        const { data } = await axios.patch(`/api/products/${product?._id}`, form,{withCredentials:true});      
+        setLoading(true)
         if (data.success) {
           toast.success("Product updated successfully");
           return router.push("/admin/products");
         }
-        return toast.error(data.message || "Failed to update product");
-      }
-    
+        return toast.error(data.message || "Failed to update product");      
+    }
     };
     const removeImage=(id:any)=>{
       setImages(images.filter((img)=>img.id!==id))
@@ -122,7 +123,7 @@ const [images, setImages] = useState<SortableImage[]>(
 
   return (
     <div>
-      <h2 className="text-xl border-b sm:text-2xl text-blue-800 font-bold mb-5 lg:text-3xl">
+      <h2 className="text-xl border-b sm:text-2xl dark:text-gray-100 text-gray-800 font-bold mb-5 lg:text-3xl">
         {mode === "add" ? "Add Product" : "Update Product"}
       </h2>
 
@@ -136,7 +137,7 @@ const [images, setImages] = useState<SortableImage[]>(
             className="outline-none p-2 dark:placeholder:text-gray-400 bg-gray-100 placeholder:text-gray-600 rounded-lg w-full sm:w-[70%] border border-gray-200 focus:border-gray-400"
           />
           {errors.title && (
-            <p className="text-red-500  dark:text-white text-xs">{errors.title.message}</p>
+            <p className="text-red-500  dark:text-red-400 text-xs">{errors.title.message}</p>
           )}
         </div>
           <div  className="mb-3">
@@ -156,7 +157,7 @@ const [images, setImages] = useState<SortableImage[]>(
               }
             </select>
             {errors.category && (
-              <p className="text-red-500  dark:text-white text-xs">{errors.category.message}</p>
+              <p className="text-red-500  dark:text-red-400 text-xs">{errors.category.message}</p>
             )}
             {categoryProperty?.parent&&<div className=" flex gap-1 items-center">
               type: <input id="parentcat" type="radio" 
@@ -229,7 +230,7 @@ const [images, setImages] = useState<SortableImage[]>(
             className="outline-none p-2 dark:text-white bg-gray-100 dark:bg-gray-700 placeholder:text-gray-600 dark:placeholder:text-gray-400 w-full sm:w-[70%] rounded-lg border border-gray-200 resize-none h-28 focus:border-gray-400"
           ></textarea>
           {errors.description && (
-            <p className="text-red-500  dark:text-white text-xs">{errors.description.message}</p>
+            <p className="text-red-500  dark:text-red-400 text-xs">{errors.description.message}</p>
           )}
         </div>
           <div className="mb-3">
@@ -241,7 +242,7 @@ const [images, setImages] = useState<SortableImage[]>(
               className="outline-none dark:placeholder:text-gray-400 w-full placeholder:text-gray-600 sm:w-[70%] p-2 bg-gray-100 rounded-lg border border-gray-200 focus:border-gray-400"
             />
             {errors.price && (
-              <p className="text-red-500 dark:text-white text-xs">{errors.price.message}</p>
+              <p className="text-red-500 dark:text-red-400 text-xs">{errors.price.message}</p>
             )}
           </div>
           <div className="mb-3">
@@ -255,17 +256,15 @@ const [images, setImages] = useState<SortableImage[]>(
                p-2 bg-gray-100 rounded-lg border border-gray-200 focus:border-gray-400"
             />
             {errors.quantity && (
-              <p className="text-red-500 dark:text-white text-xs">{errors.quantity.message}</p>
+              <p className="text-red-500 dark:text-red-400 text-xs">{errors.quantity.message}</p>
             )}
           </div>
         <button
-          disabled={!isValid}
+          disabled={!isValid||loading}
           type="submit"
-          className={`mx-auto block ${
-            !isValid
-              ? "bg-gray-700 hover:bg-gray-700"
-              : "cursor-pointer bg-blue-800 hover:bg-blue-900"
-          } text-white px-3 py-1.5 rounded-lg`}
+          className={`mx-auto block disabled:bg-gray-700
+              cursor-pointer bg-cyan-600 hover:bg-cyan-700
+              text-white px-3 py-1.5 rounded-lg disabled:cursor-not-allowed`}
         >
           {mode === "add" ? "Add Product" : "Update Product"}
         </button>

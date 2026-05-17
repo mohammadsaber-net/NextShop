@@ -1,17 +1,17 @@
-import { main_title } from "@/components/ccsStyles"
+
 import { Order } from "@/lib/model/order"
 import { mongooseConnection } from "@/lib/mongoose"
 
 export default async function Orders() {
   await mongooseConnection()
   const orders=JSON.parse (JSON.stringify(await Order.find().populate("user",("name email phone address"))))
+  console.log(orders)
   return (
     <div>
-      <h2 className={main_title}>
+      <h2 className="text-xl md:text-3xl mb-2 font-semibold border-b border-gray-300">
         Orders
       </h2>
-      <div className="h-[500px] overflow-auto md:h-fit md:max-w-2xl max-w-[600px]">
-
+      <div className="overflow-x-auto md:max-w-6xl max-w-[600px]">
       <table>
         <thead>
           <tr>
@@ -36,11 +36,14 @@ export default async function Orders() {
                   year: "numeric"
                 })}
               </td>
-              <td className="text-start">
-                {item.name}<br />
-                {item.email}<br />
-                {item.phone}<br />
-                {item.address}<br />
+              <td >
+                {item.user?<div>
+                  {item?.user?.name}<br />
+                  {item?.user?.email}<br />
+                  {item?.user?.phone}<br />
+                  {item?.user?.address}<br />
+                </div>
+                :"user deleted"}
               </td>
               <td>
                     <table>
