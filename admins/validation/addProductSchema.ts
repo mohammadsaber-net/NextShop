@@ -7,6 +7,7 @@ export const schema = z.object({
   quantity: z.string().nonempty("quantity required"),
   category: z.string().nonempty("category required"),
   parent: z.string().optional(),
+  rate: z.coerce.number().optional(),
   properties: z.array(
     z.object({
       name: z.string().nonempty("property name required"),

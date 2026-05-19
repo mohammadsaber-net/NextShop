@@ -24,10 +24,12 @@ export async function POST(req: Request) {
     const description = formData.get("description") as string;
     const price = formData.get("price") as string;
     const quantity = formData.get("quantity") as string;
+    const rate = formData.get("rate") as string;
     const category = formData.get("category") as string;
     const categoryParent = formData.get("categoryParent") as string;
     const properties = JSON.parse(formData.get("properties") as string);
     const images = formData.getAll("images") as File[];
+    
     const session=await getServerSession(authOptions) as any
     if (!session) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
@@ -51,7 +53,7 @@ export async function POST(req: Request) {
     if (!quantity) {
           return NextResponse.json({ success: false, message: "add at least one" });
         }
-  const product=await Product.create({title,description,quantity,category,price,categoryParent,properties:properties||null,images:uploadedImages})
+  const product=await Product.create({title,rate,description,quantity,category,price,categoryParent:categoryParent||null,properties:properties||null,images:uploadedImages})
   
   return NextResponse.json({ success: true,product});
 } catch (error) {

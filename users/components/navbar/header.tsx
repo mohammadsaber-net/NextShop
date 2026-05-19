@@ -41,9 +41,9 @@ export default function Header() {
         <div className='hidden md:flex items-center gap-6'>
           <nav className='flex items-center gap-4'>
             {[
-              { name: 'الرئيسية', path: '/' },
-              { name: 'المنتجات', path: '/AllProducts' },
-              { name: 'التصنيفات', path: '/category' },
+              { name: 'Home', path: '/' },
+              { name: 'Products', path: '/AllProducts' },
+              { name: 'Categories', path: '/category' },
             ].map((link) => (
               <Link 
                 key={link.path}

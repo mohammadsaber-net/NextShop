@@ -28,6 +28,9 @@ export default async function Products() {
               price
             </th>
             <th>
+              Rating
+            </th>
+            <th>
               quantity
             </th>
             <th>
@@ -42,14 +45,15 @@ export default async function Products() {
           {data.map((item:any)=>{
            return(
             <tr key={item._id}>
-              <td>{item.title}</td>
-              <td>{item.price}</td>
-              <td>{item.quantity>0?item.quantity:"this product not available"}</td>
-              <td>{item.category}</td>
+              <td>{item?.title}</td>
+              <td>{item?.price}</td>
+              <td>{item?.rate} Of 5</td>
+              <td>{item?.quantity>0?item.quantity:"this product not available"}</td>
+              <td>{item?.category}</td>
               <td className='flex flex-col gap-1'><Link href={`/admin/products/${item._id}`}
               className='p-1 cursor-pointer rounded-md bg-cyan-600 
               text-white'>Update</Link>
-              <DeleteProduct id={item._id.toString()} title={item.title}/>
+              <DeleteProduct id={item._id.toString()} title={item?.title}/>
               </td>
             </tr>
            ) 

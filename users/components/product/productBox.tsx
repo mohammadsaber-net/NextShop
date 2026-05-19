@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import { useDispatch, useSelector } from 'react-redux'
 import { animateToCart } from '../animations/animateToCart'
 import toast from 'react-hot-toast'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, Star } from 'lucide-react'
 type Product = {
   _id: string,
   title: string,     
@@ -14,6 +14,7 @@ type Product = {
   category: string,
   quantity: string,
   price: number,
+  rate: number,
   images: Array<string>,
   categoryParent: string,
   properties: Array<string>,
@@ -58,8 +59,18 @@ export default function ProductBox({ product, style }: { product: Product, style
             {product.title}
           </h3>
         </Link>
-        
-        <div className='mt-3 flex items-center justify-between'>
+        <div className='mt-2 flex gap-1'>
+          {[...Array(5)].map((_, index) => (
+            <Star
+              key={index}
+              className={index < product.rate
+                ? "fill-yellow-500 text-yellow-500"
+                : "fill-gray-700 text-gray-700"
+              }
+            />
+          ))}
+        </div>
+        <div className='mt-2 flex items-center justify-between'>
           <div className="flex flex-col">
             <span className="text-xs text-slate-400 font-medium">Price</span>
             <p className='text-xl font-black text-slate-900'>

@@ -57,6 +57,7 @@ export default function Page() {
     try {
       if (showUpdate) {
         const { data: res } = await axios.patch(`/api/category/${showUpdate._id}`, dataToBeSent);
+        setLoading(false)
         if (res.success) {
           toast.success("Category updated successfully");
           getCate().then(d => setCategories(d));
@@ -68,6 +69,7 @@ export default function Page() {
         }
       } else {
         const { data: res } = await axios.post("/api/category", dataToBeSent);
+        setLoading(false)
         if (res.success) {
           toast.success("Category added successfully");
           getCate().then(d => setCategories(d));
@@ -78,11 +80,10 @@ export default function Page() {
         }
       }
     } catch (error) {
+      setLoading(false)
       toast.error((error as Error).message || "Something went wrong");
     }
-    setLoading(false)
   };
-
   const updateData = (item: any) => setShowUpdate(item);
   return (
     <div>

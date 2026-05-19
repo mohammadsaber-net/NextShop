@@ -14,13 +14,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
   if (!session) {
     return (
-      <div 
-      className="flex min-h-screen items-center bg-zinc-200 
-      text-gray-900 dark:text-white font-sans dark:bg-gray-800">
-        <div className="mx-auto">
-          <LoginPage />
-        </div>
-      </div>
+      <LoginPage />
     );
   }
   return (

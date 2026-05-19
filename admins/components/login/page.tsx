@@ -34,9 +34,10 @@ export default function LoginPage() {
 return (
   <div
     className="
+    min-h-screen
     flex items-center justify-center
-    px-8
     py-2
+    dark:text-gray-100 
     bg-gradient-to-br
     from-indigo-100
     via-white
@@ -59,7 +60,7 @@ return (
       border border-white/30 dark:border-white/10
       rounded-3xl
       shadow-2xl
-      py-4 px-12
+      py-4 px-6
       z-10
       "
     >

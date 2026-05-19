@@ -17,6 +17,7 @@ type Props = {
     description: string;
     price: string;
     parent: string;
+    rate:string;
     quantity: string;
     category: string;
     images: string[];
@@ -39,7 +40,8 @@ export default function FormModel({ mode, product }: Props) {
     register,
     handleSubmit,
     formState: { isValid, errors },
-    reset
+    reset,
+    setValue 
   } = useForm({
     resolver: zodResolver(schema),
     mode: "all",
@@ -73,11 +75,13 @@ const [images, setImages] = useState<SortableImage[]>(
     setImages(newState);
   };
   const onSubmit = async (productData: any) => {
+    console.log(productData)
     const form = new FormData();
     setLoading(true)
     form.append("title", productData.title);
     form.append("description", productData.description);
     form.append("price", productData.price);
+    form.append("rate", productData.rate);
     form.append("category", productData.category);
     form.append("quantity", productData.quantity);
     form.append("categoryParent", productData.parent);
@@ -89,38 +93,47 @@ const [images, setImages] = useState<SortableImage[]>(
         form.append("existingImages", img.url);
       }
     });
-    console.log(productData.parent,productData.category)
+    try {
     if (mode === "add") {
-        try {
           const { data } = await axios.post("/api/products", form,{withCredentials:true});
+          setLoading(false)
           if (data.success) {        
-            setLoading(true)
             toast.success("Product added"); 
             return router.push("/admin/products");
           }
           return toast.error(data.message||"Failed to add product");
-        } catch (error) {
-        return toast.error((error as Error).message);
-      }}else{
-        const { data } = await axios.patch(`/api/products/${product?._id}`, form,{withCredentials:true});      
-        setLoading(true)
-        if (data.success) {
-          toast.success("Product updated successfully");
-          return router.push("/admin/products");
-        }
-        return toast.error(data.message || "Failed to update product");      
+          }else{
+          const { data } = await axios.patch(`/api/products/${product?._id}`, form,{withCredentials:true});      
+          setLoading(false)
+          if (data.success) {
+            toast.success("Product updated successfully");
+            return router.push("/admin/products");
+          }
+          return toast.error(data.message || "Failed to update product");      
     }
+    }catch (error) {
+      setLoading(false)
+        return toast.error((error as Error).message);
+      }
+    
     };
     const removeImage=(id:any)=>{
       setImages(images.filter((img)=>img.id!==id))
     }
+    // useEffect(() => {
+    //   if (product && category.length > 0) {
+    //     const cat = category.find((item:any) => item.name === product.category);
+    //     setCategoryProperty(cat || null);
+    //   }
+    //   console.log(categoryProperty)
+    // }, [product, category]);
     useEffect(() => {
-      if (product && category.length > 0) {
-        const cat = category.find((item:any) => item.name === product.category);
-        setCategoryProperty(cat || null);
-      }
-    }, [product, category]);
-
+      setValue(
+        "parent",
+        categoryProperty?.parent?.name || "",
+        { shouldValidate: true }
+      );
+    }, [categoryProperty, setValue]);
   return (
     <div>
       <h2 className="text-xl border-b sm:text-2xl dark:text-gray-100 text-gray-800 font-bold mb-5 lg:text-3xl">
@@ -143,10 +156,15 @@ const [images, setImages] = useState<SortableImage[]>(
           <div  className="mb-3">
             <label className="text-blue-600 dark:text-white block">Category</label>
             <select 
-              {...register("category")}
-              onChange={(ev)=>{
-                const data= ev.target.value as any
-                setCategoryProperty(category.find(((item:any) => item.name === data)) || null)}}
+              {...register("category", {
+                onChange: (ev) => {
+                  const data = ev.target.value;
+
+                  setCategoryProperty(
+                    category.find((item:any) => item.name === data) || null
+                  );
+                },
+              })}
               className="outline-none cursor-pointer placeholder:text-gray-600  w-full sm:w-[70%] p-2 bg-gray-100 rounded-lg border border-gray-200 focus:border-gray-400"
             >
               <option value="">Uncategorized</option>
@@ -159,13 +177,19 @@ const [images, setImages] = useState<SortableImage[]>(
             {errors.category && (
               <p className="text-red-500  dark:text-red-400 text-xs">{errors.category.message}</p>
             )}
-            {categoryProperty?.parent&&<div className=" flex gap-1 items-center">
-              type: <input id="parentcat" type="radio" 
-              {...register("parent")} 
-              checked
-              value={categoryProperty?.parent.name}/>
-              <label htmlFor="parentcat">{categoryProperty?.parent.name}</label>
-            </div>}
+            {categoryProperty?.parent?<div 
+            className=" flex gap-1 items-center">
+              parent Category : 
+              <span className="text-gray-800 dark:text-gray-100 font-semibold">
+                {categoryProperty?.parent.name}
+              </span>
+              <input 
+              type="radio" 
+              className="hidden"
+              {...register("parent")} />
+            </div>: 
+            <div>parent Category : Nothing</div>
+            }
             {categoryProperty?.properties?.length>0&&categoryProperty?.properties?.map((item:any,ind:any)=>{
               return (
               <div className="flex gap-5 mt-2" key={ind}>
@@ -246,6 +270,15 @@ const [images, setImages] = useState<SortableImage[]>(
             )}
           </div>
           <div className="mb-3">
+            <label className="text-blue-600 dark:text-white block">Rate</label>
+            <input
+              {...register("rate")}
+              type="number"
+              placeholder="Rate"
+              className="outline-none dark:placeholder:text-gray-400 w-full placeholder:text-gray-600 sm:w-[70%] p-2 bg-gray-100 rounded-lg border border-gray-200 focus:border-gray-400"
+            />
+          </div>
+          <div className="mb-3">
             <label className="text-blue-600 dark:text-white block">Stock</label>
             <input
               {...register("quantity")}
@@ -262,7 +295,7 @@ const [images, setImages] = useState<SortableImage[]>(
         <button
           disabled={!isValid||loading}
           type="submit"
-          className={`mx-auto block disabled:bg-gray-700
+          className={`mx-auto w-full mb-6 block disabled:bg-gray-700
               cursor-pointer bg-cyan-600 hover:bg-cyan-700
               text-white px-3 py-1.5 rounded-lg disabled:cursor-not-allowed`}
         >

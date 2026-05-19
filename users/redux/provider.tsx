@@ -8,7 +8,7 @@ export default function ReduxProvider({ children }: { children: React.ReactNode 
   return <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
         {children}
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster reverseOrder={false} />
       </PersistGate>
   </Provider>;
 }

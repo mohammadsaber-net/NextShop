@@ -136,7 +136,7 @@ export default function Categories({ category }: { category: any }) {
       </div>
 
       {products.length === 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {category.map((item: any) => {
             if (!item.parent) return null; 
             const isExpanded = openCategory === item._id;
