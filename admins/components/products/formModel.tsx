@@ -30,6 +30,9 @@ type SortableImage = {
   file?: File;
 };
 export default function FormModel({ mode, product }: Props) {
+  if(!product && mode==="edit"){
+    return <div>not fetched yet</div>
+  }
   console.log(product)
   const[ categoryProperty,setCategoryProperty]=useState<any>(null)
   const[ loading,setLoading]=useState<boolean>(false)

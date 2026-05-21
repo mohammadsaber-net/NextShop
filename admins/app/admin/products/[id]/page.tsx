@@ -1,6 +1,5 @@
 import FormModel from "@/components/products/formModel";
-import axios from "axios";
-export default async function page({params}:{params:any}) {
+export default async function page({params}:{params:Promise<{id:string}>}) {
     const {id}=await params
     const data=await fetch(`${process.env.NEXTAUTH_URL}/api/products/${id}`)
     .then((res)=>res.json())
