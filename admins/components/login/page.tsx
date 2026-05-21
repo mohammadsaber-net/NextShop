@@ -10,17 +10,19 @@ export default function LoginPage() {
   const adminPass="gold123"
   const [copied, setCopy] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const Icon=showPassword? EyeIcon:LucideEyeOff
   async function handleLogin(e: any) {
     e.preventDefault();
-
+    setLoading(true)
     await signIn("credentials", {
       email,
       password,
       redirect: true,
       callbackUrl: "/",
     });
+    setLoading(false)
   }
   const AdminIcon=copied===admin?CopyCheckIcon:Copy
   const PassIcon=copied===adminPass?CopyCheckIcon:Copy
@@ -212,9 +214,14 @@ return (
         </div>
 
         <button
+        disabled={loading}
           type="submit"
           className="
           mt-2
+          disabled:bg-gray-400
+          disabled:pointer-events-none
+          focus:from-indigo-700
+          focus:from-cyan-600
           rounded-xl
           p-3
           text-white
@@ -226,7 +233,7 @@ return (
           transition
           "
         >
-          Login
+          {loading?"Loading...":"Login"}
         </button>
       </form>
     </div>

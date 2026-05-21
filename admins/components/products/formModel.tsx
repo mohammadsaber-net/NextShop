@@ -120,13 +120,6 @@ const [images, setImages] = useState<SortableImage[]>(
     const removeImage=(id:any)=>{
       setImages(images.filter((img)=>img.id!==id))
     }
-    // useEffect(() => {
-    //   if (product && category.length > 0) {
-    //     const cat = category.find((item:any) => item.name === product.category);
-    //     setCategoryProperty(cat || null);
-    //   }
-    //   console.log(categoryProperty)
-    // }, [product, category]);
     useEffect(() => {
       setValue(
         "parent",

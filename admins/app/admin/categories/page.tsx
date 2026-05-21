@@ -204,12 +204,14 @@ export default function Page() {
                     <td >{cat.parent?.name || "-"}</td>
                     <td className="flex flex-col gap-2">
                       <button
+                      type="button"
                         onClick={() => updateData(cat)}
                         className="flex-1 cursor-pointer bg-cyan-600 text-white rounded px-2 py-1"
                       >
                         Update
                       </button>
                       <button
+                      type="button"
                         onClick={() => deleteCategory(cat._id, setCategories)}
                         className="flex-1 cursor-pointer bg-red-600 text-white rounded px-2 py-1"
                       >
