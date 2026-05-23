@@ -1,4 +1,4 @@
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 import { mongooseConnection } from "@/lib/mongoose";
 import { Product } from "@/lib/model/products";
 import ProductBox from "./productBox";

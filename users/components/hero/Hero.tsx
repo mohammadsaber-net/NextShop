@@ -119,6 +119,7 @@
 import { api } from "@/lib/axios";
 import { addOne } from "@/redux/slices/cart";
 import { AppDispatch } from "@/redux/store";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ImageGallery from "react-image-gallery";
@@ -173,17 +174,19 @@ export default function Hero() {
       <img
         src={item.original}
         alt={item.description}
-        className="h-[450px] w-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+        className="w-full h-full
+          object-contain transform group-hover:scale-105 transition-all duration-700
+        "
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/60 to-transparent opacity-60" />
 
-      <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
+      <div className="absolute md:bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
         <span className="text-xs font-bold uppercase tracking-widest text-indigo-200">
           {item.discount}
         </span>
 
-        <p className="text-lg font-medium text-white truncate">
+        <p className="md:text-lg font-normal text-sm md:font-medium text-white truncate">
           {item.description}
         </p>
       </div>
@@ -231,9 +234,12 @@ export default function Hero() {
                 {product?.title}
               </h1>
 
-              <p className="max-w-lg text-slate-400 md:text-lg mb-4 leading-relaxed line-clamp-4">
-                {product?.description}
-              </p>
+              <div className="max-w-lg text-slate-400 md:text-lg mb-4 leading-relaxed line-clamp-4">
+                {product?.description.slice(0, 150)}... 
+                <Link href={`/AllProducts/${product?._id}`} className="text-indigo-400 inline hover:underline">
+                  Read More
+                </Link>
+              </div>
               <div className="flex flex-wrap items-center gap-4 justify-center md:justify-start mb-6">
 
                 <div className="
@@ -302,15 +308,9 @@ export default function Hero() {
             </>
           )}
         </div>
-
-        {/* Right */}
-
         <div className="relative w-[70%] md:w-[85%] max-w-xl m-auto group">
-
           <div className="absolute w-fit -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-
           <div className="relative w-fit bg-slate-900 rounded-[2rem] p-2 border border-white/10 shadow-2xl overflow-hidden">
-
             {loading ? (
               <div className="w-[300px] md:w-[450px] h-[250px] md:h-[450px] rounded-3xl bg-slate-700 animate-pulse"/>
             ) : (

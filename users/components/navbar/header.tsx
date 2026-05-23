@@ -82,8 +82,6 @@ export default function Header() {
             </Link>
           </div>
         </div>
-
-        {/* Mobile Toggle */}
         <div className='flex md:hidden items-center gap-3'>
            <Link className="relative p-2 text-white" href={"/cart"}>
               <ShoppingCart className="size-6" />
@@ -102,10 +100,10 @@ export default function Header() {
       <div className={`absolute top-16 left-0 w-full bg-[#161e31] border-b border-indigo-500/20 transition-all duration-300 ease-in-out md:hidden shadow-2xl
         ${showMobile ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}`}>
         <nav className="flex flex-col p-4 space-y-2">
-          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/">الرئيسية</Link>
-          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/AllProducts">كل المنتجات</Link>
-          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/category">التصنيفات</Link>
-          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/account">حسابي</Link>
+          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/">Home</Link>
+          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/AllProducts">Products</Link>
+          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/category">Categories</Link>
+          <Link onClick={() => setShowMobile(false)} className="p-3 text-slate-200 hover:bg-indigo-600 rounded-xl transition-colors" href="/account">My Account</Link>
           <div className="pt-4 border-t border-slate-700">
              <SearchProduct />
           </div>
