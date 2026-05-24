@@ -32,7 +32,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen overflow-hidden bg-gray-50">
           <Header />
             <div className="pt-24">
               {children}

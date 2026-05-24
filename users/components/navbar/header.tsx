@@ -26,7 +26,7 @@ export default function Header() {
     }
   },[scroll])
   return (
-    <header className={`fixed z-[100] top-0 left-0 right-0 ${scroll ? 'bg-[#0f172a]/80 backdrop-blur-md' : 'bg-[#0f172a]'} border-b border-indigo-500/20 shadow-xl`}>
+    <header className={`md:fixed z-[100] top-0 left-0 right-0 ${scroll ? 'bg-[#0f172a]/80 backdrop-blur-md' : 'bg-[#0f172a]'} border-b border-indigo-500/20 shadow-xl`}>
       <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex justify-between items-center">
         <Link href={"/"} className="flex items-center gap-2 group">
           <div className="bg-indigo-600 p-1.5 rounded-lg group-hover:rotate-12 transition-transform">
@@ -64,14 +64,14 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <SearchProduct />
             
-            {/* أيقونة السلة بتصميم أنيق */}
             <Link 
               href={"/cart"}
+              id='cart-icon'
               className="relative p-2 text-slate-300 hover:bg-slate-800 rounded-full transition-all"
             >
-              <ShoppingCart className="size-5" />
+              <ShoppingCart className="size-6" />
               {cartIds.length > 0 && (
-                <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold rounded-full size-4 flex items-center justify-center border-2 border-[#0f172a]">
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold rounded-full size-5 flex items-center justify-center ">
                   {cartIds.length}
                 </span>
               )}
@@ -83,9 +83,11 @@ export default function Header() {
           </div>
         </div>
         <div className='flex md:hidden items-center gap-3'>
-           <Link className="relative p-2 text-white" href={"/cart"}>
+           <Link 
+           id='cart-icon'
+           className="relative p-2 text-white" href={"/cart"}>
               <ShoppingCart className="size-6" />
-              <span className="absolute top-1 right-1 bg-indigo-600 text-[10px] rounded-full size-4 flex items-center justify-center">
+              <span className="absolute top-1 right-1 bg-red-500 text-[10px] rounded-full size-4 flex items-center justify-center">
                 {cartIds.length}
               </span>
            </Link>
